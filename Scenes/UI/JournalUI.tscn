@@ -1,0 +1,250 @@
+; JournalUI.tscn
+; Journal overlay for Chronicles Unbound.
+; Full-viewport semi-transparent overlay with centered 3-column layout.
+; Left sidebar: category filters with unread count badges.
+; Center column: entry list with titles and timestamps.
+; Right column: entry details panel.
+
+[gd_scene format=3 uid="uid://journal_ui"]
+
+; ── External script reference ─────────────────────────────────────────────────
+[ext_resource type="Script" path="res://Scripts/UI/JournalUI.gd" id="1_journal"]
+
+; ── StyleBoxFlat resources ────────────────────────────────────────────────────
+
+; Semi-transparent background overlay
+[sub_resource type="StyleBoxFlat" id="StyleBox_overlay_bg"]
+bg_color = Color(0.05, 0.05, 0.1, 0.85)
+
+; Main panel background — dark navy
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel_bg"]
+bg_color = Color(0.063, 0.063, 0.157, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 0.5)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
+; Column background panels
+[sub_resource type="StyleBoxFlat" id="StyleBox_column_bg"]
+bg_color = Color(0.08, 0.08, 0.18, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.4)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+; ── Scene tree ────────────────────────────────────────────────────────────────
+
+; Root — full-viewport overlay Control
+[node name="JournalUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_journal")
+
+; Semi-transparent background overlay
+[node name="OverlayBackground" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_overlay_bg")
+
+; ══════════════════════════════════════════════════════════════════════════════
+; CENTERED PANEL CONTAINER
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+; Main journal panel
+[node name="MainPanel" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(1400, 800)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_panel_bg")
+
+; Outer margin
+[node name="OuterMargin" type="MarginContainer" parent="CenterContainer/MainPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+; Main VBox layout
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+; ── Header row ────────────────────────────────────────────────────────────────
+
+[node name="HeaderRow" type="HBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+; Add Note button (left side)
+[node name="AddNoteButton" type="Button" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/HeaderRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "+ Add Note"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_font_sizes/font_size = 13
+
+; Title label (centered)
+[node name="TitleLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "JOURNAL"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_shadow_color = Color(0.0, 0.0, 0.0, 0.6)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 28
+
+; Close button
+[node name="CloseButton" type="Button" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/HeaderRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+text = "✕"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 24
+
+; ── Content row (3 columns) ────────────────────────────────────────────────────
+
+[node name="ContentRow" type="HBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+; ══════════════════════════════════════════════════════════════════════════════
+; LEFT COLUMN — Category Filters
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="FilterColumn" type="PanelContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_column_bg")
+
+[node name="FilterMargin" type="MarginContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/FilterColumn"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="FilterVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/FilterColumn/FilterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FilterHeaderLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/FilterColumn/FilterMargin/FilterVBox"]
+layout_mode = 2
+text = "CATEGORIES"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="FilterButtonsScroll" type="ScrollContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/FilterColumn/FilterMargin/FilterVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FilterButtonsVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/FilterColumn/FilterMargin/FilterVBox/FilterButtonsScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+; ══════════════════════════════════════════════════════════════════════════════
+; CENTER COLUMN — Entry List
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="EntriesColumn" type="PanelContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_column_bg")
+
+[node name="EntriesMargin" type="MarginContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EntriesColumn"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="EntriesVBoxContainer" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EntriesColumn/EntriesMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EntriesHeaderLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EntriesColumn/EntriesMargin/EntriesVBoxContainer"]
+layout_mode = 2
+text = "ENTRIES"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="EntriesScroll" type="ScrollContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EntriesColumn/EntriesMargin/EntriesVBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EntriesVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EntriesColumn/EntriesMargin/EntriesVBoxContainer/EntriesScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+; ══════════════════════════════════════════════════════════════════════════════
+; RIGHT COLUMN — Entry Details
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="DetailsColumn" type="PanelContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow"]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_column_bg")
+
+[node name="DetailsMargin" type="MarginContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/DetailsColumn"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="DetailsScroll" type="ScrollContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/DetailsColumn/DetailsMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DetailsVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/DetailsColumn/DetailsMargin/DetailsScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="PlaceholderLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/DetailsColumn/DetailsMargin/DetailsScroll/DetailsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Select an entry to view details."
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

@@ -1,0 +1,306 @@
+[
+  {
+    "quest_id": "goblin_problem",
+    "title": "The Goblin Problem",
+    "description": "Goblins from the eastern caves have grown bold, raiding farms around Millhaven and stealing livestock. Mayor Harlan has posted a bounty: clear the Goblin Caves and put an end to the threat before the harvest season is ruined.",
+    "giver_npc_id": "npc_mayor_harlan",
+    "objectives": [
+      {
+        "objective_id": "goblin_problem_kill",
+        "description": "Slay goblins in the Goblin Caves",
+        "type": "KillMonsters",
+        "target_id": "goblin",
+        "required_count": 8,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "goblin_problem_explore",
+        "description": "Reach the deepest chamber of the Goblin Caves",
+        "type": "ExploreLocation",
+        "target_id": "goblin_caves",
+        "required_count": 1,
+        "current_progress": 0
+      }
+    ],
+    "xp_reward": 300,
+    "gold_reward": 50,
+    "item_rewards": ["Potion of Healing"],
+    "prerequisite_quest_ids": [],
+    "is_main_story": true,
+    "recommended_level": 1,
+    "status": "Available"
+  },
+  {
+    "quest_id": "missing_miners",
+    "title": "Missing Miners",
+    "description": "A group of miners ventured into the Silver Mine seeking a rumored vein of mithral and haven't been heard from in over a week. Their families in Millhaven are desperate for news. Someone needs to enter the mine and find out what happened to them.",
+    "giver_npc_id": "npc_blacksmith_edda",
+    "objectives": [
+      {
+        "objective_id": "missing_miners_explore",
+        "description": "Enter the Silver Mine and search for the missing miners",
+        "type": "ExploreLocation",
+        "target_id": "silver_mine",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "missing_miners_talk",
+        "description": "Find and speak with the lead miner, Torgen",
+        "type": "TalkToNPC",
+        "target_id": "npc_miner_torgen",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "missing_miners_survive",
+        "description": "Survive the creatures lurking in the lower shafts",
+        "type": "SurviveCombat",
+        "target_id": "silver_mine_depths",
+        "required_count": 1,
+        "current_progress": 0
+      }
+    ],
+    "xp_reward": 450,
+    "gold_reward": 75,
+    "item_rewards": ["Silver Ore", "Potion of Healing"],
+    "prerequisite_quest_ids": [],
+    "is_main_story": false,
+    "recommended_level": 2,
+    "status": "Available"
+  },
+  {
+    "quest_id": "old_road_bandits",
+    "title": "The Old Road Bandits",
+    "description": "Merchant caravans traveling the Old Road have been ambushed repeatedly by a well-organized band of highwaymen. The innkeeper at Crossroads Inn, Kael, says they operate from a hidden camp in the gullies alongside the road. The trade route must be made safe again.",
+    "giver_npc_id": "npc_innkeeper_kael",
+    "objectives": [
+      {
+        "objective_id": "old_road_bandits_kill",
+        "description": "Defeat the bandits on the Old Road",
+        "type": "KillMonsters",
+        "target_id": "bandit",
+        "required_count": 6,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "old_road_bandits_leader",
+        "description": "Defeat the bandit captain",
+        "type": "KillMonsters",
+        "target_id": "bandit_captain",
+        "required_count": 1,
+        "current_progress": 0
+      }
+    ],
+    "xp_reward": 400,
+    "gold_reward": 100,
+    "item_rewards": ["Studded Leather Armor"],
+    "prerequisite_quest_ids": [],
+    "is_main_story": false,
+    "recommended_level": 2,
+    "status": "Available"
+  },
+  {
+    "quest_id": "herbs_for_healer",
+    "title": "Herbs for the Healer",
+    "description": "Thistle, the herbalist in Millhaven, is running dangerously low on moonpetal blossoms — a rare herb that only grows in the Darkwood Forest clearings. She needs them to brew remedies for the townsfolk. The forest is dangerous, but the herbs are essential.",
+    "giver_npc_id": "npc_herbalist_thistle",
+    "objectives": [
+      {
+        "objective_id": "herbs_collect",
+        "description": "Collect moonpetal blossoms in the Darkwood Forest",
+        "type": "CollectItems",
+        "target_id": "moonpetal_blossom",
+        "required_count": 5,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "herbs_return",
+        "description": "Return the blossoms to Thistle in Millhaven",
+        "type": "TalkToNPC",
+        "target_id": "npc_herbalist_thistle",
+        "required_count": 1,
+        "current_progress": 0
+      }
+    ],
+    "xp_reward": 200,
+    "gold_reward": 30,
+    "item_rewards": ["Potion of Healing", "Antitoxin"],
+    "prerequisite_quest_ids": [],
+    "is_main_story": false,
+    "recommended_level": 1,
+    "status": "Available"
+  },
+  {
+    "quest_id": "investigate_warden",
+    "title": "Investigate the Warden",
+    "description": "Village elder Morvaine in Thornfield has grown suspicious of the mysterious Warden who occupies Ravenwatch Tower. Ravens circle the tower at all hours, and strange lights have been seen in its upper windows. Someone should investigate before whatever the Warden is planning comes to fruition.",
+    "giver_npc_id": "npc_elder_morvaine",
+    "objectives": [
+      {
+        "objective_id": "warden_talk_elder",
+        "description": "Speak with Elder Morvaine about the Warden's activities",
+        "type": "TalkToNPC",
+        "target_id": "npc_elder_morvaine",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "warden_explore_tower",
+        "description": "Gain entry to Ravenwatch Tower and investigate",
+        "type": "ExploreLocation",
+        "target_id": "ravenwatch_tower",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "warden_confront",
+        "description": "Confront the Warden, Corvus",
+        "type": "TalkToNPC",
+        "target_id": "npc_warden_corvus",
+        "required_count": 1,
+        "current_progress": 0
+      }
+    ],
+    "xp_reward": 500,
+    "gold_reward": 60,
+    "item_rewards": ["Cloak of Protection"],
+    "prerequisite_quest_ids": ["goblin_problem"],
+    "is_main_story": false,
+    "recommended_level": 3,
+    "status": "Available"
+  },
+  {
+    "quest_id": "temple_restoration",
+    "title": "Temple Restoration",
+    "description": "Sister Aurelia at the Temple of the Dawn has had a vision: three holy relics of Lathander, scattered across the region by the catastrophe that destroyed Aldenmere, must be recovered and returned to the temple. Their restoration will strengthen the temple's protective wards against the encroaching darkness.",
+    "giver_npc_id": "npc_priestess_aurelia",
+    "objectives": [
+      {
+        "objective_id": "temple_relic_1",
+        "description": "Recover the Dawn Shard from the Darkwood Forest druid circle",
+        "type": "CollectItems",
+        "target_id": "dawn_shard",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "temple_relic_2",
+        "description": "Recover the Morninglord's Chalice from the Silver Mine",
+        "type": "CollectItems",
+        "target_id": "morninglords_chalice",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "temple_relic_3",
+        "description": "Recover the Sunburst Medallion from the Ruins of Aldenmere",
+        "type": "CollectItems",
+        "target_id": "sunburst_medallion",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "temple_return_relics",
+        "description": "Return all relics to Sister Aurelia",
+        "type": "TalkToNPC",
+        "target_id": "npc_priestess_aurelia",
+        "required_count": 1,
+        "current_progress": 0
+      }
+    ],
+    "xp_reward": 750,
+    "gold_reward": 100,
+    "item_rewards": ["Amulet of Health"],
+    "prerequisite_quest_ids": [],
+    "is_main_story": false,
+    "recommended_level": 3,
+    "status": "Available"
+  },
+  {
+    "quest_id": "whispering_marsh_mystery",
+    "title": "The Whispering Marsh Mystery",
+    "description": "Travelers near the Whispering Marsh report hearing voices calling them into the fog, and several people have gone missing. Ranger Lira in the Darkwood Forest believes a hag has taken up residence in the marsh's deepest reaches. Investigating could reveal a hidden area — or a deadly trap.",
+    "giver_npc_id": "npc_ranger_lira",
+    "objectives": [
+      {
+        "objective_id": "marsh_explore",
+        "description": "Venture into the Whispering Marsh",
+        "type": "ExploreLocation",
+        "target_id": "whispering_marsh",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "marsh_survive",
+        "description": "Survive the marsh's dangers",
+        "type": "SurviveCombat",
+        "target_id": "whispering_marsh",
+        "required_count": 2,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "marsh_discover",
+        "description": "Discover the source of the whispering voices",
+        "type": "ExploreLocation",
+        "target_id": "whispering_marsh_hag_lair",
+        "required_count": 1,
+        "current_progress": 0
+      }
+    ],
+    "xp_reward": 600,
+    "gold_reward": 80,
+    "item_rewards": ["Ring of Protection"],
+    "prerequisite_quest_ids": [],
+    "is_main_story": false,
+    "recommended_level": 3,
+    "status": "Available"
+  },
+  {
+    "quest_id": "ruins_of_aldenmere",
+    "title": "Ruins of Aldenmere",
+    "description": "The Ruins of Aldenmere hold the key to understanding the ancient catastrophe that shaped this region. Scholars believe a powerful artifact lies hidden in the old keep's vaults — one that could shed light on the growing darkness threatening the land. Brave the undead guardians and uncover the lore buried beneath centuries of rubble.",
+    "giver_npc_id": "npc_innkeeper_kael",
+    "objectives": [
+      {
+        "objective_id": "aldenmere_explore",
+        "description": "Enter the Ruins of Aldenmere",
+        "type": "ExploreLocation",
+        "target_id": "ruins_of_aldenmere",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "aldenmere_undead",
+        "description": "Clear the undead from the outer ruins",
+        "type": "KillMonsters",
+        "target_id": "skeleton",
+        "required_count": 6,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "aldenmere_vault",
+        "description": "Reach the sealed vault beneath the old keep",
+        "type": "ExploreLocation",
+        "target_id": "aldenmere_vault",
+        "required_count": 1,
+        "current_progress": 0
+      },
+      {
+        "objective_id": "aldenmere_artifact",
+        "description": "Recover the Chronicle of Aldenmere",
+        "type": "CollectItems",
+        "target_id": "chronicle_of_aldenmere",
+        "required_count": 1,
+        "current_progress": 0
+      }
+    ],
+    "xp_reward": 900,
+    "gold_reward": 150,
+    "item_rewards": ["Chronicle of Aldenmere", "Potion of Greater Healing"],
+    "prerequisite_quest_ids": ["goblin_problem"],
+    "is_main_story": true,
+    "recommended_level": 3,
+    "status": "Available"
+  }
+]

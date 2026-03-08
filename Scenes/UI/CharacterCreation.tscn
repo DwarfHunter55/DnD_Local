@@ -1,0 +1,570 @@
+; CharacterCreation.tscn
+; Multi-step wizard for D&D 5e character creation.
+; Dark fantasy styled interface matching MainMenu.
+
+[gd_scene format=3 uid="uid://character_creation"]
+
+; ── External script reference ─────────────────────────────────────────────────
+[ext_resource type="Script" path="res://Scripts/UI/CharacterCreation.gd" id="1_charcreate"]
+
+; ── StyleBoxFlat resources ────────────────────────────────────────────────────
+
+; Background — deep navy
+[sub_resource type="StyleBoxFlat" id="StyleBox_background"]
+bg_color = Color(0.063, 0.063, 0.157, 1.0)
+
+; Content panel — slightly lighter navy
+[sub_resource type="StyleBoxFlat" id="StyleBox_content_panel"]
+bg_color = Color(0.08, 0.08, 0.18, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.30, 0.18, 0.5)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
+; Step indicator — inactive
+[sub_resource type="StyleBoxFlat" id="StyleBox_step_inactive"]
+bg_color = Color(0.15, 0.15, 0.25, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.22, 0.15, 0.5)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+; Step indicator — active
+[sub_resource type="StyleBoxFlat" id="StyleBox_step_active"]
+bg_color = Color(0.18, 0.14, 0.04, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+; Selection button — normal
+[sub_resource type="StyleBoxFlat" id="StyleBox_selection_normal"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+
+; Selection button — hover
+[sub_resource type="StyleBoxFlat" id="StyleBox_selection_hover"]
+bg_color = Color(0.18, 0.16, 0.10, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+
+; Selection button — pressed/selected
+[sub_resource type="StyleBoxFlat" id="StyleBox_selection_pressed"]
+bg_color = Color(0.25, 0.20, 0.06, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+
+; Navigation button — normal
+[sub_resource type="StyleBoxFlat" id="StyleBox_nav_normal"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+
+; Navigation button — hover
+[sub_resource type="StyleBoxFlat" id="StyleBox_nav_hover"]
+bg_color = Color(0.18, 0.16, 0.10, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+
+; Navigation button — disabled
+[sub_resource type="StyleBoxFlat" id="StyleBox_nav_disabled"]
+bg_color = Color(0.08, 0.08, 0.12, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.22, 0.15, 0.5)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+
+; Gold button — normal
+[sub_resource type="StyleBoxFlat" id="StyleBox_gold_normal"]
+bg_color = Color(0.18, 0.14, 0.04, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+
+; Gold button — hover
+[sub_resource type="StyleBoxFlat" id="StyleBox_gold_hover"]
+bg_color = Color(0.28, 0.22, 0.06, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+
+; Gold button — pressed
+[sub_resource type="StyleBoxFlat" id="StyleBox_gold_pressed"]
+bg_color = Color(0.35, 0.28, 0.08, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1.0, 0.95, 0.6, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+
+; ── Scene tree ────────────────────────────────────────────────────────────────
+
+; Root — full-viewport Control with the GDScript controller attached.
+[node name="CharacterCreation" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_charcreate")
+
+; Background panel
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_background")
+
+; ══════════════════════════════════════════════════════════════════════════════
+; MAIN LAYOUT
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+; ── Title ─────────────────────────────────────────────────────────────────────
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Create Your Character"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_shadow_color = Color(0.0, 0.0, 0.0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+
+; ── Step Indicator ────────────────────────────────────────────────────────────
+
+[node name="StepIndicator" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Step0" type="Panel" parent="MarginContainer/VBoxContainer/StepIndicator"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_step_active")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/StepIndicator/Step0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Race"
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Step1" type="Panel" parent="MarginContainer/VBoxContainer/StepIndicator"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_step_inactive")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/StepIndicator/Step1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Class"
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Step2" type="Panel" parent="MarginContainer/VBoxContainer/StepIndicator"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_step_inactive")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/StepIndicator/Step2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Background"
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Step3" type="Panel" parent="MarginContainer/VBoxContainer/StepIndicator"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_step_inactive")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/StepIndicator/Step3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Abilities"
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Step4" type="Panel" parent="MarginContainer/VBoxContainer/StepIndicator"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_step_inactive")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/StepIndicator/Step4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skills"
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Step5" type="Panel" parent="MarginContainer/VBoxContainer/StepIndicator"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_step_inactive")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/StepIndicator/Step5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Name"
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Step6" type="Panel" parent="MarginContainer/VBoxContainer/StepIndicator"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_step_inactive")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/StepIndicator/Step6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Summary"
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+; ── Content Area ──────────────────────────────────────────────────────────────
+
+[node name="ContentPanel" type="Panel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_content_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/ContentPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+; TabContainer to hold each step's content
+[node name="StepContainer" type="TabContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tabs_visible = false
+current_tab = 0
+
+; ──────────────────────────────────────────────────────────────────────────────
+; STEP 0: RACE SELECTION
+; ──────────────────────────────────────────────────────────────────────────────
+
+[node name="RaceStep" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer"]
+layout_mode = 2
+
+[node name="RaceContent" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer/RaceStep"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+; ──────────────────────────────────────────────────────────────────────────────
+; STEP 1: CLASS SELECTION
+; ──────────────────────────────────────────────────────────────────────────────
+
+[node name="ClassStep" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer"]
+visible = false
+layout_mode = 2
+
+[node name="ClassContent" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer/ClassStep"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+; ──────────────────────────────────────────────────────────────────────────────
+; STEP 2: BACKGROUND SELECTION
+; ──────────────────────────────────────────────────────────────────────────────
+
+[node name="BackgroundStep" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer"]
+visible = false
+layout_mode = 2
+
+[node name="BackgroundContent" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer/BackgroundStep"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+; ──────────────────────────────────────────────────────────────────────────────
+; STEP 3: ABILITY SCORES
+; ──────────────────────────────────────────────────────────────────────────────
+
+[node name="AbilityStep" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer"]
+visible = false
+layout_mode = 2
+
+[node name="AbilityContent" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer/AbilityStep"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+; ──────────────────────────────────────────────────────────────────────────────
+; STEP 4: SKILL SELECTION
+; ──────────────────────────────────────────────────────────────────────────────
+
+[node name="SkillStep" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SkillContent" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer/SkillStep"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+; ──────────────────────────────────────────────────────────────────────────────
+; STEP 5: NAME & DETAILS
+; ──────────────────────────────────────────────────────────────────────────────
+
+[node name="NameStep" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer"]
+visible = false
+layout_mode = 2
+
+[node name="NameContent" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer/NameStep"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+; ──────────────────────────────────────────────────────────────────────────────
+; STEP 6: SUMMARY
+; ──────────────────────────────────────────────────────────────────────────────
+
+[node name="SummaryStep" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SummaryContent" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ContentPanel/MarginContainer/StepContainer/SummaryStep"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+; ── Navigation Buttons ────────────────────────────────────────────────────────
+
+[node name="NavigationBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/NavigationBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(150, 50)
+text = "Cancel"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_disabled_color = Color(0.35, 0.33, 0.30, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_nav_normal")
+theme_override_styles/hover = SubResource("StyleBox_nav_hover")
+theme_override_styles/pressed = SubResource("StyleBox_selection_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_nav_disabled")
+theme_override_font_sizes/font_size = 16
+
+[node name="NextButton" type="Button" parent="MarginContainer/VBoxContainer/NavigationBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(150, 50)
+text = "Next"
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_hover_color = Color(1.0, 0.95, 0.55, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 1.0, 0.75, 1.0)
+theme_override_colors/font_disabled_color = Color(0.35, 0.33, 0.30, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_gold_normal")
+theme_override_styles/hover = SubResource("StyleBox_gold_hover")
+theme_override_styles/pressed = SubResource("StyleBox_gold_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_nav_disabled")
+theme_override_font_sizes/font_size = 16

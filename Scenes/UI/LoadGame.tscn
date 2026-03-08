@@ -1,0 +1,300 @@
+; LoadGame.tscn
+; Load game save slot selection scene for Chronicles Unbound.
+; Full-viewport scene with scrollable save slot list and dark fantasy styling.
+; Emits signals that SceneManager connects to for navigation.
+
+[gd_scene format=3 uid="uid://load_game"]
+
+; ── External script reference ─────────────────────────────────────────────────
+[ext_resource type="Script" path="res://Scripts/UI/LoadGame.gd" id="1_loadgame"]
+
+; ── StyleBoxFlat resources ────────────────────────────────────────────────────
+
+; Background — deep navy (matching MainMenu)
+[sub_resource type="StyleBoxFlat" id="StyleBox_background"]
+bg_color = Color(0.063, 0.063, 0.157, 1.0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Save slot panel — normal state
+[sub_resource type="StyleBoxFlat" id="StyleBox_slot_panel"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+
+; Standard button — normal state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_normal"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; Standard button — hover state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_hover"]
+bg_color = Color(0.18, 0.16, 0.10, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; Standard button — pressed state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_pressed"]
+bg_color = Color(0.25, 0.20, 0.06, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; Delete button — normal state (red-tinted)
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_delete_normal"]
+bg_color = Color(0.20, 0.11, 0.11, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.18, 0.18, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+; Delete button — hover state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_delete_hover"]
+bg_color = Color(0.30, 0.14, 0.14, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.153, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+; Delete button — pressed state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_delete_pressed"]
+bg_color = Color(0.40, 0.18, 0.18, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.35, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+; Gold-accented button — normal state (for Load button)
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_gold_normal"]
+bg_color = Color(0.18, 0.14, 0.04, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+; Gold-accented button — hover state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_gold_hover"]
+bg_color = Color(0.28, 0.22, 0.06, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+; Gold-accented button — pressed state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_gold_pressed"]
+bg_color = Color(0.35, 0.28, 0.08, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1.0, 0.95, 0.6, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+; ── Scene tree ────────────────────────────────────────────────────────────────
+
+; Root — full-viewport Control with the GDScript controller attached.
+[node name="LoadGame" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_loadgame")
+
+; Background panel covering the entire viewport
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_background")
+
+; ══════════════════════════════════════════════════════════════════════════════
+; MAIN CONTENT
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+; ── Header ────────────────────────────────────────────────────────────────────
+
+[node name="HeaderLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Load Game"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_shadow_color = Color(0.0, 0.0, 0.0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+
+; Spacer between header and content
+[node name="HeaderSpacer" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+; ── Save slot list container ──────────────────────────────────────────────────
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="SaveSlotList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+; ── Empty state label (visible when no saves exist) ──────────────────────────
+
+[node name="EmptyStateLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/SaveSlotList"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "No saved games found"
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+
+; ── Bottom spacer and Back button ─────────────────────────────────────────────
+
+[node name="BottomSpacer" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(200, 50)
+text = "Back"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 16

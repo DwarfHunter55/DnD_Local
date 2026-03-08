@@ -1,0 +1,475 @@
+; CompanionActionPanel.tscn
+; Companion Action Review panel for Chronicles Unbound.
+; Viewport: 1280x720 (stretch mode: canvas_items, aspect: expand)
+;
+; Layout summary — fixed-width panel anchored to the right side of its parent:
+;   PanelContainer (root — 300px wide, anchored right, positioned by script for slide animation)
+;     VBoxContainer (inner layout, separation=8)
+;       HBoxContainer (header row — portrait + name)
+;         ColorRect (portrait placeholder — 48x48, colored by companion hash)
+;           Label (initial letter — centered over portrait)
+;         Label (companion name — gold, 15px)
+;       HSeparator
+;       PanelContainer (action card — main suggestion display)
+;         VBoxContainer
+;           Label ("SUGGESTED ACTION" — section header, 10px gold)
+;           Label (action display text — wrapping, 13px body)
+;       PanelContainer (reasoning card)
+;         VBoxContainer
+;           Label ("REASONING" — 10px gold)
+;           Label (reasoning text — wrapping, 12px dim)
+;       HBoxContainer (three response buttons)
+;         Button (Approve — green)
+;         Button (Modify — gold)
+;         Button (Override — red)
+;       VBoxContainer (alternatives section — hidden until Modify pressed)
+;         Label ("CHOOSE ALTERNATIVE" — 10px gold)
+;         ScrollContainer (max height ~160px)
+;           VBoxContainer (alternative buttons created at runtime)
+;
+; All interactive nodes use scene-unique names (%) for @onready resolution.
+
+[gd_scene format=3 uid="uid://companion_action_panel"]
+
+; ── External script reference ──────────────────────────────────────────────────
+[ext_resource type="Script" path="res://Scripts/UI/CompanionActionPanel.gd" id="1_cap"]
+
+; ── StyleBoxFlat resources ────────────────────────────────────────────────────
+; All values match the existing NarrativeUI / CombatUI design token palette.
+
+; Outer panel background — same as CombatUI right panel
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel_bg"]
+bg_color = Color(0.086, 0.086, 0.157, 0.97)
+border_width_left = 1
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color(0.788, 0.635, 0.153, 0.6)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+
+; Action suggestion card — darkest inset (same as CombatUI CharInfoCard)
+[sub_resource type="StyleBoxFlat" id="StyleBox_card"]
+bg_color = Color(0.063, 0.063, 0.118, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+; Approve button — green, normal state
+[sub_resource type="StyleBoxFlat" id="StyleBox_approve_normal"]
+bg_color = Color(0.18, 0.30, 0.21, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.290, 0.486, 0.349, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+
+; Approve button — hover (brighter green border)
+[sub_resource type="StyleBoxFlat" id="StyleBox_approve_hover"]
+bg_color = Color(0.24, 0.40, 0.28, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.365, 0.620, 0.435, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+
+; Approve button — pressed
+[sub_resource type="StyleBoxFlat" id="StyleBox_approve_pressed"]
+bg_color = Color(0.30, 0.49, 0.35, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.365, 0.620, 0.435, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+
+; Modify button — gold tinted, normal (matches EndTurn normal palette)
+[sub_resource type="StyleBoxFlat" id="StyleBox_modify_normal"]
+bg_color = Color(0.18, 0.14, 0.04, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+
+; Modify button — hover (brighter gold)
+[sub_resource type="StyleBoxFlat" id="StyleBox_modify_hover"]
+bg_color = Color(0.28, 0.22, 0.06, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+
+; Modify button — pressed
+[sub_resource type="StyleBoxFlat" id="StyleBox_modify_pressed"]
+bg_color = Color(0.40, 0.30, 0.05, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+
+; Override button — deep crimson, normal
+[sub_resource type="StyleBoxFlat" id="StyleBox_override_normal"]
+bg_color = Color(0.27, 0.08, 0.16, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.545, 0.133, 0.322, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+
+; Override button — hover (brighter crimson)
+[sub_resource type="StyleBoxFlat" id="StyleBox_override_hover"]
+bg_color = Color(0.38, 0.10, 0.22, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.659, 0.157, 0.373, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+
+; Override button — pressed
+[sub_resource type="StyleBoxFlat" id="StyleBox_override_pressed"]
+bg_color = Color(0.49, 0.13, 0.29, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.659, 0.157, 0.373, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+
+; ── Scene tree ────────────────────────────────────────────────────────────────
+
+; Root — PanelContainer anchored to the top-right of its parent.
+; Width is fixed at 300px. The script overrides position.x to animate slides.
+; mouse_filter defaults to STOP so the panel captures clicks and prevents
+; the combat grid from receiving them while the review is open.
+[node name="CompanionActionPanel" type="PanelContainer"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -300.0
+offset_top = 50.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 1
+custom_minimum_size = Vector2(300, 0)
+theme_override_styles/panel = SubResource("StyleBox_panel_bg")
+script = ExtResource("1_cap")
+visible = false
+
+; ── Inner vertical layout ─────────────────────────────────────────────────────
+
+[node name="InnerVBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 8
+
+; ══════════════════════════════════════════════════════════════════════════════
+; HEADER ROW — portrait placeholder + companion name
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="HeaderHBox" type="HBoxContainer" parent="InnerVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+; Portrait placeholder — 48x48 ColorRect; background color set at runtime
+; via _set_portrait_color() using a hash of the companion name.
+[node name="PortraitRect" type="ColorRect" parent="InnerVBox/HeaderHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(48, 48)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+color = Color(0.20, 0.15, 0.30, 1.0)
+
+; Initial letter centered on top of the portrait ColorRect.
+; Positioned absolute within its parent using anchors.
+[node name="PortraitInitial" type="Label" parent="InnerVBox/HeaderHBox/PortraitRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "?"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+vertical_alignment = 1
+
+; Companion name + small "COMPANION" sub-label stack
+[node name="NameVBox" type="VBoxContainer" parent="InnerVBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/separation = 2
+
+[node name="NameSubLabel" type="Label" parent="InnerVBox/HeaderHBox/NameVBox"]
+layout_mode = 2
+text = "COMPANION"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 9
+
+[node name="CompanionNameLabel" type="Label" parent="InnerVBox/HeaderHBox/NameVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "—"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_font_sizes/font_size = 15
+
+; ── Divider ───────────────────────────────────────────────────────────────────
+
+[node name="HeaderDivider" type="HSeparator" parent="InnerVBox"]
+layout_mode = 2
+
+; ══════════════════════════════════════════════════════════════════════════════
+; ACTION CARD — suggested action display
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="ActionCard" type="PanelContainer" parent="InnerVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_card")
+
+[node name="ActionCardVBox" type="VBoxContainer" parent="InnerVBox/ActionCard"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 5
+
+[node name="ActionSectionHeader" type="Label" parent="InnerVBox/ActionCard/ActionCardVBox"]
+layout_mode = 2
+text = "SUGGESTED ACTION"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 9
+
+; Action display text — wrapping so long descriptions don't clip.
+; Populated at runtime by show_suggestion().
+[node name="ActionLabel" type="Label" parent="InnerVBox/ActionCard/ActionCardVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+text = "—"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_font_sizes/font_size = 13
+
+; ══════════════════════════════════════════════════════════════════════════════
+; REASONING CARD — AI rationale display
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="ReasoningCard" type="PanelContainer" parent="InnerVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_card")
+
+[node name="ReasoningCardVBox" type="VBoxContainer" parent="InnerVBox/ReasoningCard"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 5
+
+[node name="ReasoningSectionHeader" type="Label" parent="InnerVBox/ReasoningCard/ReasoningCardVBox"]
+layout_mode = 2
+text = "REASONING"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 9
+
+; Reasoning text — wrapping, dimmer color to visually subordinate it
+; to the action text above.
+[node name="ReasoningLabel" type="Label" parent="InnerVBox/ReasoningCard/ReasoningCardVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+text = "—"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 12
+
+; ══════════════════════════════════════════════════════════════════════════════
+; RESPONSE BUTTONS — Approve / Modify / Override
+; All three share the row equally (size_flags_horizontal = 3 with equal widths).
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="ButtonRow" type="HBoxContainer" parent="InnerVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+; Approve — green (#4a7c59 family)
+[node name="ApproveButton" type="Button" parent="InnerVBox/ButtonRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Approve"
+theme_override_colors/font_color = Color(0.800, 0.960, 0.850, 1.0)
+theme_override_colors/font_hover_color = Color(0.900, 1.0, 0.930, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 1.0, 1.0, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_approve_normal")
+theme_override_styles/hover = SubResource("StyleBox_approve_hover")
+theme_override_styles/pressed = SubResource("StyleBox_approve_pressed")
+theme_override_styles/focus = SubResource("StyleBox_approve_hover")
+theme_override_font_sizes/font_size = 12
+
+; Modify — gold (#c9a227 family) — hidden when no alternatives provided
+[node name="ModifyButton" type="Button" parent="InnerVBox/ButtonRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Modify"
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_hover_color = Color(1.0, 0.95, 0.55, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 1.0, 0.75, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_modify_normal")
+theme_override_styles/hover = SubResource("StyleBox_modify_hover")
+theme_override_styles/pressed = SubResource("StyleBox_modify_pressed")
+theme_override_styles/focus = SubResource("StyleBox_modify_hover")
+theme_override_font_sizes/font_size = 12
+
+; Override — crimson (#8b2252 family)
+[node name="OverrideButton" type="Button" parent="InnerVBox/ButtonRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Override"
+theme_override_colors/font_color = Color(1.0, 0.75, 0.82, 1.0)
+theme_override_colors/font_hover_color = Color(1.0, 0.85, 0.90, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 1.0, 1.0, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_override_normal")
+theme_override_styles/hover = SubResource("StyleBox_override_hover")
+theme_override_styles/pressed = SubResource("StyleBox_override_pressed")
+theme_override_styles/focus = SubResource("StyleBox_override_hover")
+theme_override_font_sizes/font_size = 12
+
+; ══════════════════════════════════════════════════════════════════════════════
+; ALTERNATIVES SECTION — collapsed by default, revealed by Modify button.
+; Buttons inside are created at runtime by _build_alternatives_list().
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="AlternativesSection" type="VBoxContainer" parent="InnerVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+visible = false
+
+[node name="AlternativesDivider" type="HSeparator" parent="InnerVBox/AlternativesSection"]
+layout_mode = 2
+
+[node name="AlternativesHeader" type="Label" parent="InnerVBox/AlternativesSection"]
+layout_mode = 2
+text = "CHOOSE ALTERNATIVE"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 9
+
+; ScrollContainer caps the list height so the panel does not overflow the viewport
+; when many alternatives are available.
+[node name="AlternativesScroll" type="ScrollContainer" parent="InnerVBox/AlternativesSection"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 0)
+size_flags_vertical = 0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+; VBoxContainer holding runtime-created alternative buttons.
+[node name="AlternativesVBox" type="VBoxContainer" parent="InnerVBox/AlternativesSection/AlternativesScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4

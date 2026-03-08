@@ -1,0 +1,953 @@
+; NarrativeUI.tscn
+; Main narrative/exploration interface for Chronicles Unbound.
+; Viewport: 1280x720 (stretch mode: canvas_items, aspect: expand)
+; Layout summary:
+;   VBoxContainer (root, full viewport)
+;     PanelContainer (top bar, ~40px)
+;     HSplitContainer (main area, expands)
+;       PanelContainer (left — narrative + actions + input, ~70%)
+;       PanelContainer (right — party panel, ~30%)
+;     PanelContainer (bottom status bar, ~28px)
+;
+; All interactive nodes use scene-unique names (%) for @onready resolution.
+
+[gd_scene format=3 uid="uid://narrative_ui"]
+
+; ── External script reference ─────────────────────────────────────────────────
+[ext_resource type="Script" path="res://Scripts/UI/NarrativeUI.gd" id="1_narrativeui"]
+
+; ── StyleBoxFlat resources ────────────────────────────────────────────────────
+; Defined once here and referenced by node theme_override_styles/panel.
+
+; Root / top-bar / bottom-bar background — deep navy-charcoal
+[sub_resource type="StyleBoxFlat" id="StyleBox_bg_dark"]
+bg_color = Color(0.086, 0.086, 0.157, 1.0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Top bar accent — slightly lighter charcoal with bottom gold border
+[sub_resource type="StyleBoxFlat" id="StyleBox_topbar"]
+bg_color = Color(0.102, 0.102, 0.18, 1.0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Narrative text area — darkest background
+[sub_resource type="StyleBoxFlat" id="StyleBox_narrative_panel"]
+bg_color = Color(0.063, 0.063, 0.118, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+
+; Party panel — slightly lighter than narrative panel
+[sub_resource type="StyleBoxFlat" id="StyleBox_party_panel"]
+bg_color = Color(0.086, 0.086, 0.157, 1.0)
+border_width_left = 1
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color(0.35, 0.30, 0.18, 0.6)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+; Individual party member slot card
+[sub_resource type="StyleBoxFlat" id="StyleBox_slot_card"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.5)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+; Status bar
+[sub_resource type="StyleBoxFlat" id="StyleBox_statusbar"]
+bg_color = Color(0.063, 0.063, 0.118, 1.0)
+border_width_left = 0
+border_width_top = 2
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Action buttons — normal state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_normal"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; Action buttons — hover state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_hover"]
+bg_color = Color(0.18, 0.16, 0.10, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; Action buttons — pressed state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_pressed"]
+bg_color = Color(0.25, 0.20, 0.06, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; Top-bar menu buttons — normal
+[sub_resource type="StyleBoxFlat" id="StyleBox_menuBtn_normal"]
+bg_color = Color(0.0, 0.0, 0.0, 0.0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 0.0)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+
+; Top-bar menu buttons — hover
+[sub_resource type="StyleBoxFlat" id="StyleBox_menuBtn_hover"]
+bg_color = Color(0.18, 0.16, 0.10, 0.5)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+
+; Send button — normal
+[sub_resource type="StyleBoxFlat" id="StyleBox_send_normal"]
+bg_color = Color(0.18, 0.14, 0.04, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+
+; Send button — hover
+[sub_resource type="StyleBoxFlat" id="StyleBox_send_hover"]
+bg_color = Color(0.28, 0.22, 0.06, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+
+; Input field background
+[sub_resource type="StyleBoxFlat" id="StyleBox_input_normal"]
+bg_color = Color(0.063, 0.063, 0.118, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; Input field — focused border highlights gold
+[sub_resource type="StyleBoxFlat" id="StyleBox_input_focused"]
+bg_color = Color(0.063, 0.063, 0.118, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; HP bar background track
+[sub_resource type="StyleBoxFlat" id="StyleBox_hpbar_bg"]
+bg_color = Color(0.08, 0.08, 0.08, 1.0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+; HP bar fill — green (default; overridden at runtime by script based on ratio)
+[sub_resource type="StyleBoxFlat" id="StyleBox_hpbar_fill"]
+bg_color = Color(0.18, 0.80, 0.44, 1.0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+; ── Fonts (system fallback — no custom font asset required) ───────────────────
+; Font sizes are set via theme_override_font_sizes on individual nodes.
+
+; ── Scene tree ────────────────────────────────────────────────────────────────
+
+; Root — full-viewport Control with the GDScript controller attached.
+[node name="NarrativeUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_bg_dark")
+script = ExtResource("1_narrativeui")
+
+; ══════════════════════════════════════════════════════════════════════════════
+; OUTER VERTICAL LAYOUT
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="RootVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+; ══════════════════════════════════════════════════════════════════════════════
+; TOP BAR
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="TopBar" type="PanelContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 40)
+theme_override_styles/panel = SubResource("StyleBox_topbar")
+
+[node name="TopBarHBox" type="HBoxContainer" parent="RootVBox/TopBar"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 2
+
+; Game title label — left-aligned in the top bar
+[node name="TitleLabel" type="Label" parent="RootVBox/TopBar/TopBarHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Chronicles Unbound"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 14
+
+; Spacer pushes nav buttons to the right
+[node name="TopBarSpacer" type="Control" parent="RootVBox/TopBar/TopBarHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+; ── Top bar navigation buttons ────────────────────────────────────────────────
+; Non-functional placeholders — wired up in future phases.
+
+[node name="MenuButton" type="Button" parent="RootVBox/TopBar/TopBarHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Menu"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_menuBtn_normal")
+theme_override_styles/hover = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/focus = SubResource("StyleBox_menuBtn_normal")
+theme_override_font_sizes/font_size = 13
+
+[node name="SaveButton" type="Button" parent="RootVBox/TopBar/TopBarHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save [F5]"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_menuBtn_normal")
+theme_override_styles/hover = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/focus = SubResource("StyleBox_menuBtn_normal")
+theme_override_font_sizes/font_size = 13
+
+[node name="JournalButton" type="Button" parent="RootVBox/TopBar/TopBarHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Journal [J]"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_menuBtn_normal")
+theme_override_styles/hover = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/focus = SubResource("StyleBox_menuBtn_normal")
+theme_override_font_sizes/font_size = 13
+
+[node name="MapButton" type="Button" parent="RootVBox/TopBar/TopBarHBox"]
+layout_mode = 2
+text = "Map"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_menuBtn_normal")
+theme_override_styles/hover = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/focus = SubResource("StyleBox_menuBtn_normal")
+theme_override_font_sizes/font_size = 13
+
+[node name="CharacterButton" type="Button" parent="RootVBox/TopBar/TopBarHBox"]
+layout_mode = 2
+text = "Character"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_menuBtn_normal")
+theme_override_styles/hover = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/focus = SubResource("StyleBox_menuBtn_normal")
+theme_override_font_sizes/font_size = 13
+
+[node name="InventoryButton" type="Button" parent="RootVBox/TopBar/TopBarHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Inventory [I]"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_menuBtn_normal")
+theme_override_styles/hover = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_menuBtn_hover")
+theme_override_styles/focus = SubResource("StyleBox_menuBtn_normal")
+theme_override_font_sizes/font_size = 13
+
+; ══════════════════════════════════════════════════════════════════════════════
+; MAIN CONTENT AREA — horizontal split: narrative (left) + party (right)
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="MainHSplit" type="HSplitContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 640
+dragger_visibility = 2
+theme_override_constants/separation = 0
+
+; ══════════════════════════════════════════════════════════════════════════════
+; LEFT PANEL — narrative display + action buttons + text input
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="LeftPanel" type="PanelContainer" parent="RootVBox/MainHSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.70
+theme_override_styles/panel = SubResource("StyleBox_bg_dark")
+
+[node name="LeftVBox" type="VBoxContainer" parent="RootVBox/MainHSplit/LeftPanel"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 8
+
+; ── Narrative text area ────────────────────────────────────────────────────────
+
+[node name="NarrativePanelMargin" type="MarginContainer" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 0
+
+[node name="NarrativePanel" type="PanelContainer" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/NarrativePanelMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_narrative_panel")
+
+; RichTextLabel — the primary narrative display surface.
+; scene_unique_name allows @onready to resolve via %NarrativeLabel.
+[node name="NarrativeLabel" type="RichTextLabel" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/NarrativePanelMargin/NarrativePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+scroll_following = true
+selection_enabled = true
+bbcode_enabled = true
+text = ""
+theme_override_colors/default_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_shadow_color = Color(0.0, 0.0, 0.0, 0.5)
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/bold_font_size = 14
+theme_override_font_sizes/italics_font_size = 14
+
+; ── Suggested action buttons — 2x2 grid ───────────────────────────────────────
+
+[node name="ActionsMargin" type="MarginContainer" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 0
+
+[node name="ActionsGrid" type="GridContainer" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/ActionsMargin"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 6
+
+[node name="ActionButton0" type="Button" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/ActionsMargin/ActionsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "[1]  Action One"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 13
+visible = false
+
+[node name="ActionButton1" type="Button" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/ActionsMargin/ActionsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "[2]  Action Two"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 13
+visible = false
+
+[node name="ActionButton2" type="Button" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/ActionsMargin/ActionsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "[3]  Action Three"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 13
+visible = false
+
+[node name="ActionButton3" type="Button" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/ActionsMargin/ActionsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "[4]  Action Four"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 13
+visible = false
+
+; ── Player text input row ──────────────────────────────────────────────────────
+
+[node name="InputMargin" type="MarginContainer" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="InputHBox" type="HBoxContainer" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/InputMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlayerInput" type="LineEdit" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/InputMargin/InputHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Type your action..."
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_placeholder_color = Color(0.55, 0.52, 0.47, 1.0)
+theme_override_colors/caret_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/selection_color = Color(0.788, 0.635, 0.153, 0.35)
+theme_override_styles/normal = SubResource("StyleBox_input_normal")
+theme_override_styles/focus = SubResource("StyleBox_input_focused")
+theme_override_font_sizes/font_size = 14
+
+[node name="SendButton" type="Button" parent="RootVBox/MainHSplit/LeftPanel/LeftVBox/InputMargin/InputHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+text = "Send"
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_hover_color = Color(1.0, 0.95, 0.55, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 1.0, 0.75, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_send_normal")
+theme_override_styles/hover = SubResource("StyleBox_send_hover")
+theme_override_styles/pressed = SubResource("StyleBox_send_normal")
+theme_override_styles/focus = SubResource("StyleBox_send_hover")
+theme_override_font_sizes/font_size = 14
+
+; ══════════════════════════════════════════════════════════════════════════════
+; RIGHT PANEL — party status (5 member slots)
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="PartyPanel" type="PanelContainer" parent="RootVBox/MainHSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.30
+theme_override_styles/panel = SubResource("StyleBox_party_panel")
+
+[node name="PartyVBox" type="VBoxContainer" parent="RootVBox/MainHSplit/PartyPanel"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 6
+
+; Party header
+[node name="PartyHeaderLabel" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox"]
+layout_mode = 2
+text = "PARTY"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+
+; Thin gold divider under party header
+[node name="PartyDivider" type="HSeparator" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox"]
+layout_mode = 2
+
+; ── Party Slot 0 (Player Character) ───────────────────────────────────────────
+
+[node name="PartySlot0" type="PanelContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_slot_card")
+
+[node name="Slot0VBox" type="VBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot0"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+
+[node name="Slot0TopRow" type="HBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot0/Slot0VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SlotName" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot0/Slot0VBox/Slot0TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player"
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_font_sizes/font_size = 13
+
+[node name="SlotRelationship" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot0/Slot0VBox/Slot0TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+theme_override_colors/font_color = Color(0.86, 0.44, 0.44, 1.0)
+theme_override_font_sizes/font_size = 11
+visible = false
+
+[node name="SlotClass" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot0/Slot0VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lvl 1 Fighter"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="SlotHPBar" type="ProgressBar" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot0/Slot0VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+max_value = 10.0
+value = 10.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBox_hpbar_bg")
+theme_override_styles/fill = SubResource("StyleBox_hpbar_fill")
+
+[node name="SlotHPLabel" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot0/Slot0VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / 0"
+theme_override_colors/font_color = Color(0.55, 0.52, 0.47, 1.0)
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+
+; ── Party Slot 1 ──────────────────────────────────────────────────────────────
+
+[node name="PartySlot1" type="PanelContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_slot_card")
+
+[node name="Slot1VBox" type="VBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot1"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+
+[node name="Slot1TopRow" type="HBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot1/Slot1VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SlotName" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot1/Slot1VBox/Slot1TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Companion"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_font_sizes/font_size = 13
+
+[node name="SlotRelationship" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot1/Slot1VBox/Slot1TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "♥ Neutral"
+theme_override_colors/font_color = Color(0.86, 0.44, 0.44, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="SlotClass" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot1/Slot1VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lvl 1 Unknown"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="SlotHPBar" type="ProgressBar" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot1/Slot1VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+max_value = 10.0
+value = 10.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBox_hpbar_bg")
+theme_override_styles/fill = SubResource("StyleBox_hpbar_fill")
+
+[node name="SlotHPLabel" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot1/Slot1VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / 0"
+theme_override_colors/font_color = Color(0.55, 0.52, 0.47, 1.0)
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+
+; ── Party Slot 2 ──────────────────────────────────────────────────────────────
+
+[node name="PartySlot2" type="PanelContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_slot_card")
+
+[node name="Slot2VBox" type="VBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot2"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+
+[node name="Slot2TopRow" type="HBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot2/Slot2VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SlotName" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot2/Slot2VBox/Slot2TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Companion"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_font_sizes/font_size = 13
+
+[node name="SlotRelationship" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot2/Slot2VBox/Slot2TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "♥ Neutral"
+theme_override_colors/font_color = Color(0.86, 0.44, 0.44, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="SlotClass" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot2/Slot2VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lvl 1 Unknown"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="SlotHPBar" type="ProgressBar" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot2/Slot2VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+max_value = 10.0
+value = 10.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBox_hpbar_bg")
+theme_override_styles/fill = SubResource("StyleBox_hpbar_fill")
+
+[node name="SlotHPLabel" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot2/Slot2VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / 0"
+theme_override_colors/font_color = Color(0.55, 0.52, 0.47, 1.0)
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+
+; ── Party Slot 3 ──────────────────────────────────────────────────────────────
+
+[node name="PartySlot3" type="PanelContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_slot_card")
+
+[node name="Slot3VBox" type="VBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot3"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+
+[node name="Slot3TopRow" type="HBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot3/Slot3VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SlotName" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot3/Slot3VBox/Slot3TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Companion"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_font_sizes/font_size = 13
+
+[node name="SlotRelationship" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot3/Slot3VBox/Slot3TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "♥ Neutral"
+theme_override_colors/font_color = Color(0.86, 0.44, 0.44, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="SlotClass" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot3/Slot3VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lvl 1 Unknown"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="SlotHPBar" type="ProgressBar" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot3/Slot3VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+max_value = 10.0
+value = 10.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBox_hpbar_bg")
+theme_override_styles/fill = SubResource("StyleBox_hpbar_fill")
+
+[node name="SlotHPLabel" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot3/Slot3VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / 0"
+theme_override_colors/font_color = Color(0.55, 0.52, 0.47, 1.0)
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+
+; ── Party Slot 4 ──────────────────────────────────────────────────────────────
+
+[node name="PartySlot4" type="PanelContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_slot_card")
+
+[node name="Slot4VBox" type="VBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot4"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+
+[node name="Slot4TopRow" type="HBoxContainer" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot4/Slot4VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SlotName" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot4/Slot4VBox/Slot4TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Companion"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_font_sizes/font_size = 13
+
+[node name="SlotRelationship" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot4/Slot4VBox/Slot4TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "♥ Neutral"
+theme_override_colors/font_color = Color(0.86, 0.44, 0.44, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="SlotClass" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot4/Slot4VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lvl 1 Unknown"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="SlotHPBar" type="ProgressBar" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot4/Slot4VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+max_value = 10.0
+value = 10.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBox_hpbar_bg")
+theme_override_styles/fill = SubResource("StyleBox_hpbar_fill")
+
+[node name="SlotHPLabel" type="Label" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox/PartySlot4/Slot4VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / 0"
+theme_override_colors/font_color = Color(0.55, 0.52, 0.47, 1.0)
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+
+; Spacer at bottom of party list so slots don't stretch to fill remaining height
+[node name="PartyBottomSpacer" type="Control" parent="RootVBox/MainHSplit/PartyPanel/PartyVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+; ══════════════════════════════════════════════════════════════════════════════
+; BOTTOM STATUS BAR
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="StatusBar" type="PanelContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 28)
+theme_override_styles/panel = SubResource("StyleBox_statusbar")
+
+[node name="StatusMargin" type="MarginContainer" parent="RootVBox/StatusBar"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 0
+
+[node name="StatusLabel" type="Label" parent="RootVBox/StatusBar/StatusMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Ready."
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 1

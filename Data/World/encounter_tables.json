@@ -1,0 +1,486 @@
+[
+  {
+    "table_id": "enc_outskirts_easy",
+    "entries": [
+      {
+        "monster_name": "Wolf",
+        "min_count": 1,
+        "max_count": 3,
+        "weight": 4,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Giant Rat",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 3,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Kobold",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 3,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Goblin",
+        "min_count": 1,
+        "max_count": 3,
+        "weight": 4,
+        "min_danger_level": 1
+      }
+    ]
+  },
+  {
+    "table_id": "enc_road_medium",
+    "entries": [
+      {
+        "monster_name": "Goblin",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 4,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Orc",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 3,
+        "min_danger_level": 1
+      },
+      {
+        "monster_name": "Worg",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 1
+      },
+      {
+        "monster_name": "Bugbear",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Wolf",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 3,
+        "min_danger_level": 0
+      }
+    ]
+  },
+  {
+    "table_id": "enc_forest_medium_hard",
+    "entries": [
+      {
+        "monster_name": "Giant Spider",
+        "min_count": 1,
+        "max_count": 3,
+        "weight": 4,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Dire Wolf",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 3,
+        "min_danger_level": 1
+      },
+      {
+        "monster_name": "Bugbear",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 3,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Owlbear",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Ettercap",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Wolf",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 3,
+        "min_danger_level": 0
+      }
+    ]
+  },
+  {
+    "table_id": "enc_goblin_caves",
+    "entries": [
+      {
+        "monster_name": "Goblin",
+        "min_count": 3,
+        "max_count": 6,
+        "weight": 5,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Goblin",
+        "min_count": 2,
+        "max_count": 3,
+        "weight": 3,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Bugbear",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 3,
+        "min_danger_level": 1
+      },
+      {
+        "monster_name": "Wolf",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Giant Rat",
+        "min_count": 2,
+        "max_count": 5,
+        "weight": 2,
+        "min_danger_level": 0
+      }
+    ]
+  },
+  {
+    "table_id": "enc_ruins_hard",
+    "entries": [
+      {
+        "monster_name": "Skeleton",
+        "min_count": 3,
+        "max_count": 6,
+        "weight": 4,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Zombie",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 3,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Ghoul",
+        "min_count": 1,
+        "max_count": 3,
+        "weight": 3,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Ghast",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Shadow",
+        "min_count": 1,
+        "max_count": 3,
+        "weight": 2,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Specter",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Animated Armor",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Mimic",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 1,
+        "min_danger_level": 4
+      }
+    ]
+  },
+  {
+    "table_id": "enc_mine_medium_hard",
+    "entries": [
+      {
+        "monster_name": "Kobold",
+        "min_count": 3,
+        "max_count": 6,
+        "weight": 3,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Giant Rat",
+        "min_count": 2,
+        "max_count": 5,
+        "weight": 3,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Rust Monster",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 1
+      },
+      {
+        "monster_name": "Skeleton",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 3,
+        "min_danger_level": 1
+      },
+      {
+        "monster_name": "Gelatinous Cube",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 1,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Gargoyle",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Ogre",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 2,
+        "min_danger_level": 2
+      }
+    ]
+  },
+  {
+    "table_id": "enc_tower_hard",
+    "entries": [
+      {
+        "monster_name": "Animated Armor",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 3,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Gargoyle",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 3,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Specter",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Ghast",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Imp",
+        "min_count": 1,
+        "max_count": 3,
+        "weight": 2,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Hell Hound",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 1,
+        "min_danger_level": 4
+      }
+    ]
+  },
+  {
+    "table_id": "enc_marsh_hard",
+    "entries": [
+      {
+        "monster_name": "Giant Rat",
+        "min_count": 3,
+        "max_count": 5,
+        "weight": 2,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Giant Spider",
+        "min_count": 1,
+        "max_count": 3,
+        "weight": 3,
+        "min_danger_level": 1
+      },
+      {
+        "monster_name": "Ghoul",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 3,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Ghast",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Shadow",
+        "min_count": 2,
+        "max_count": 3,
+        "weight": 2,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Cockatrice",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Black Pudding",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 1,
+        "min_danger_level": 4
+      }
+    ]
+  },
+  {
+    "table_id": "enc_highland_hard",
+    "entries": [
+      {
+        "monster_name": "Orc",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 4,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Harpy",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 3,
+        "min_danger_level": 1
+      },
+      {
+        "monster_name": "Griffon",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 2,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Manticore",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Ogre",
+        "min_count": 1,
+        "max_count": 2,
+        "weight": 2,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Worg",
+        "min_count": 2,
+        "max_count": 3,
+        "weight": 2,
+        "min_danger_level": 1
+      }
+    ]
+  },
+  {
+    "table_id": "enc_blighted_deadly",
+    "entries": [
+      {
+        "monster_name": "Zombie",
+        "min_count": 4,
+        "max_count": 6,
+        "weight": 3,
+        "min_danger_level": 0
+      },
+      {
+        "monster_name": "Ghoul",
+        "min_count": 2,
+        "max_count": 4,
+        "weight": 3,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Ghast",
+        "min_count": 2,
+        "max_count": 3,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Wraith",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 2,
+        "min_danger_level": 4
+      },
+      {
+        "monster_name": "Shadow",
+        "min_count": 3,
+        "max_count": 5,
+        "weight": 3,
+        "min_danger_level": 2
+      },
+      {
+        "monster_name": "Specter",
+        "min_count": 2,
+        "max_count": 3,
+        "weight": 2,
+        "min_danger_level": 3
+      },
+      {
+        "monster_name": "Flesh Golem",
+        "min_count": 1,
+        "max_count": 1,
+        "weight": 1,
+        "min_danger_level": 5
+      },
+      {
+        "monster_name": "Skeleton",
+        "min_count": 4,
+        "max_count": 8,
+        "weight": 3,
+        "min_danger_level": 0
+      }
+    ]
+  }
+]

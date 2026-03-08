@@ -1,0 +1,280 @@
+; MainMenu.tscn
+; Main menu scene for Chronicles Unbound.
+; Full-viewport centered menu with dark fantasy styling.
+; Emits signals that SceneManager connects to for navigation.
+
+[gd_scene format=3 uid="uid://main_menu"]
+
+; ── External script reference ─────────────────────────────────────────────────
+[ext_resource type="Script" path="res://Scripts/UI/MainMenu.gd" id="1_mainmenu"]
+
+; ── StyleBoxFlat resources ────────────────────────────────────────────────────
+
+; Background — deep navy
+[sub_resource type="StyleBoxFlat" id="StyleBox_background"]
+bg_color = Color(0.063, 0.063, 0.157, 1.0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Standard button — normal state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_normal"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; Standard button — hover state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_hover"]
+bg_color = Color(0.18, 0.16, 0.10, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; Standard button — pressed state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_pressed"]
+bg_color = Color(0.25, 0.20, 0.06, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; Standard button — disabled state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_disabled"]
+bg_color = Color(0.08, 0.08, 0.12, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.22, 0.15, 0.5)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; Gold-accented button — normal state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_gold_normal"]
+bg_color = Color(0.18, 0.14, 0.04, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; Gold-accented button — hover state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_gold_hover"]
+bg_color = Color(0.28, 0.22, 0.06, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; Gold-accented button — pressed state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_gold_pressed"]
+bg_color = Color(0.35, 0.28, 0.08, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1.0, 0.95, 0.6, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+
+; ── Scene tree ────────────────────────────────────────────────────────────────
+
+; Root — full-viewport Control with the GDScript controller attached.
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mainmenu")
+
+; Background panel covering the entire viewport
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_background")
+
+; ══════════════════════════════════════════════════════════════════════════════
+; CENTERED MENU CONTENT
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuVBox" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+; ── Title and subtitle ────────────────────────────────────────────────────────
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/MenuVBox"]
+layout_mode = 2
+text = "Chronicles Unbound"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_shadow_color = Color(0.0, 0.0, 0.0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/MenuVBox"]
+layout_mode = 2
+text = "A D&D 5e Adventure"
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+; Spacer between subtitle and buttons
+[node name="TitleSpacer" type="Control" parent="CenterContainer/MenuVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+
+; ── Menu buttons ───────────────────────────────────────────────────────────────
+
+[node name="NewGameButton" type="Button" parent="CenterContainer/MenuVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+text = "New Game"
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_hover_color = Color(1.0, 0.95, 0.55, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 1.0, 0.75, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_gold_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_gold_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_gold_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_gold_hover")
+theme_override_font_sizes/font_size = 18
+
+[node name="ContinueButton" type="Button" parent="CenterContainer/MenuVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+text = "Continue"
+visible = false
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_hover_color = Color(1.0, 0.95, 0.55, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 1.0, 0.75, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_gold_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_gold_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_gold_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_gold_hover")
+theme_override_font_sizes/font_size = 18
+
+[node name="LoadGameButton" type="Button" parent="CenterContainer/MenuVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+text = "Load Game"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 16
+
+[node name="SettingsButton" type="Button" parent="CenterContainer/MenuVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+disabled = true
+text = "Settings"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_disabled_color = Color(0.35, 0.33, 0.30, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_font_sizes/font_size = 16
+
+[node name="QuitButton" type="Button" parent="CenterContainer/MenuVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+text = "Quit"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_pressed_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 16

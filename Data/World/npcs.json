@@ -1,0 +1,262 @@
+[
+  {
+    "npc_id": "npc_mayor_harlan",
+    "name": "Harlan",
+    "title": "Mayor",
+    "role": "Noble",
+    "location_id": "millhaven",
+    "personality": "A pragmatic, silver-haired man in his fifties who speaks with measured authority. Harlan was a merchant before becoming mayor and thinks in terms of costs and benefits. He genuinely cares about Millhaven's people but is slow to trust outsiders until they prove useful. He is direct, slightly impatient, and always has one eye on the town's treasury.",
+    "greeting": "Ah, an adventurer. Good. Millhaven could use capable hands. I hope you're not just passing through.",
+    "dialogue_hooks": [
+      "The goblins from the eastern caves have been raiding our farms. If this keeps up, we'll lose the harvest.",
+      "Millhaven has been a prosperous town for generations. I intend to keep it that way.",
+      "The town guard does what it can, but Captain Brennan's stretched thin these days.",
+      "I've heard strange reports from travelers on the Old Road. Bandits growing bolder by the week.",
+      "If you're looking for honest work, check the notice board at the Hearthstone Tavern."
+    ],
+    "associated_quest_ids": ["goblin_problem"],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_blacksmith_edda",
+    "name": "Edda",
+    "title": "Blacksmith",
+    "role": "Blacksmith",
+    "location_id": "millhaven",
+    "personality": "A stout dwarven woman with arms like tree trunks and soot permanently embedded in her skin. Edda is gruff but fair, with a dry sense of humor and deep pride in her craft. She speaks plainly, dislikes flattery, and judges people by their actions rather than words. She has a soft spot for anyone who treats her tools with respect.",
+    "greeting": "Steel or conversation? I'm better at one than the other. What do you need?",
+    "dialogue_hooks": [
+      "My cousin Torgen took a group of miners into the Silver Mine looking for mithral. Haven't heard from them since.",
+      "I can forge anything you need, long as you've got the coin and the patience.",
+      "This anvil belonged to my grandfather. Three generations of Ironforge craft, right here in Millhaven.",
+      "The ore quality's been dropping. Something's wrong deep in the mines, mark my words."
+    ],
+    "associated_quest_ids": ["missing_miners"],
+    "associated_shop_id": "shop_blacksmith"
+  },
+  {
+    "npc_id": "npc_herbalist_thistle",
+    "name": "Thistle",
+    "title": "Herbalist",
+    "role": "Shopkeeper",
+    "location_id": "millhaven",
+    "personality": "A slight half-elf woman with wild auburn hair and ink-stained fingers. Thistle is warm, slightly scatterbrained, and endlessly curious about plants, fungi, and natural remedies. She speaks quickly and often trails off mid-sentence when a new thought strikes her. Despite her scattered manner, her potions and salves are the best in the region.",
+    "greeting": "Oh! A visitor! Come in, come in. Mind the hanging bundles, they're drying. What brings you to my shop?",
+    "dialogue_hooks": [
+      "I'm running dangerously low on moonpetal blossoms. They only grow in Darkwood Forest clearings, and I can't exactly go picking them myself.",
+      "Did you know that troll bile, properly distilled, makes an excellent burn salve? Fascinating, really.",
+      "The old druid in the forest, Oakenhart, taught me half of what I know. Haven't seen him in months, though.",
+      "I've noticed more people coming in with strange rashes. Something in the water, maybe, or something worse."
+    ],
+    "associated_quest_ids": ["herbs_for_healer"],
+    "associated_shop_id": "shop_herbalist"
+  },
+  {
+    "npc_id": "npc_guard_captain_brennan",
+    "name": "Brennan",
+    "title": "Guard Captain",
+    "role": "Guard",
+    "location_id": "millhaven",
+    "personality": "A tall, weathered human man in his forties with a prominent scar across his jaw. Brennan is disciplined, watchful, and carries himself with military bearing. He speaks in clipped sentences and wastes no words. He is fiercely protective of Millhaven and deeply frustrated by the recent increase in threats with too few guards to handle them.",
+    "greeting": "State your business. Millhaven has enough trouble without strangers adding to it.",
+    "dialogue_hooks": [
+      "I've got twelve guards to cover the walls, the gates, and patrols. Twelve. For a town this size.",
+      "The goblins are getting organized. That's what worries me. Goblins don't organize themselves.",
+      "If you're looking to help, talk to the Mayor. I don't hire mercenaries without his say-so.",
+      "There's been a hooded figure spotted near the eastern gate at night. My patrols keep missing them.",
+      "I served in the King's army for fifteen years. Millhaven was supposed to be my quiet retirement."
+    ],
+    "associated_quest_ids": [],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_farmer_giles",
+    "name": "Giles",
+    "title": "Farmer",
+    "role": "Villager",
+    "location_id": "millhaven_outskirts",
+    "personality": "A broad-shouldered, sun-browned human farmer in his thirties. Giles is honest and hardworking but anxious about the goblin raids that have been targeting his farm. He speaks with a rural accent, is generous with food and hospitality, and gets emotional when talking about his family's safety. He knows the outskirts better than anyone.",
+    "greeting": "Thank the gods, someone who looks like they can handle a sword. The goblins hit my neighbor's farm just last night.",
+    "dialogue_hooks": [
+      "I found goblin tracks in my wheat field this morning. Heading east, toward the caves.",
+      "My grandfather cleared this land. I'll be damned if some cave-dwelling greenskins drive me off it.",
+      "The forest to the north has been quieter than usual. Even the wolves have stopped howling. That's not natural.",
+      "If you're heading east, stick to the paths. The brush is thick enough to hide an ambush."
+    ],
+    "associated_quest_ids": [],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_innkeeper_kael",
+    "name": "Kael",
+    "title": "Innkeeper",
+    "role": "Innkeeper",
+    "location_id": "crossroads_inn",
+    "personality": "A retired soldier turned innkeeper, Kael is a lean, sharp-eyed human man in his late forties with close-cropped grey hair. He runs a tight establishment with military efficiency but genuine warmth. He has a talent for listening, a memory for faces, and a network of contacts among traveling merchants. He tolerates no brawling but enjoys a good story.",
+    "greeting": "Welcome to the Crossroads Inn. Hot food, cold ale, and clean beds. What'll it be?",
+    "dialogue_hooks": [
+      "Bandits on the Old Road have been hitting merchant caravans hard. Trade's drying up because of it.",
+      "I hear things, running an inn at a crossroads. Last week a scholar passed through babbling about Aldenmere and some ancient artifact.",
+      "A ranger from the north mentioned lights in Ravenwatch Tower. The Warden's up to something.",
+      "I've seen a lot of adventurers come through here. The ones who come back are the ones who plan ahead.",
+      "The marsh to the east? Stay away from it. Three travelers went in last month. None came out."
+    ],
+    "associated_quest_ids": ["old_road_bandits", "ruins_of_aldenmere"],
+    "associated_shop_id": "shop_crossroads_provisions"
+  },
+  {
+    "npc_id": "npc_traveling_merchant",
+    "name": "Vero",
+    "title": "Traveling Merchant",
+    "role": "Merchant",
+    "location_id": "crossroads_inn",
+    "personality": "A flamboyant halfling merchant with an elaborate mustache and a wagon full of curiosities. Vero is charming, shrewd, and always working an angle, though he is not dishonest — just opportunistic. He speaks with dramatic flair, peppers his speech with foreign phrases, and claims to have been everywhere at least twice.",
+    "greeting": "Ah, a discerning customer! Vero the Magnificent, purveyor of fine goods and finer stories. How may I dazzle you today?",
+    "dialogue_hooks": [
+      "I acquired this particular trinket in a bazaar far to the south. The merchant swore it was enchanted. I make no such promises myself.",
+      "The roads are getting dangerous. My usual route through the Old Road is practically suicide now.",
+      "I've heard whispers of Aldenmere treasure showing up in black markets. Someone's been looting those ruins.",
+      "Trade tip, friend: buy healing potions before you need them. Nobody haggles well while bleeding."
+    ],
+    "associated_quest_ids": [],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_elder_morvaine",
+    "name": "Morvaine",
+    "title": "Elder",
+    "role": "Sage",
+    "location_id": "thornfield_village",
+    "personality": "An elderly half-elf woman with silver-streaked dark hair and piercing green eyes that miss nothing. Morvaine has lived in Thornfield for over a century and remembers when the region was more peaceful. She is wise, cautious, and speaks with deliberate weight. She distrusts magic she cannot understand and harbors deep suspicion of the Warden at Ravenwatch Tower.",
+    "greeting": "You have the look of someone seeking answers. Sit. I have tea, and perhaps some of the answers you need.",
+    "dialogue_hooks": [
+      "The Warden in Ravenwatch Tower arrived five years ago. Since then, the ravens have multiplied and the shadows have grown longer.",
+      "I remember the old stories about Aldenmere. The city didn't fall to an army. It fell to something from within.",
+      "Thornfield is a small village, but we look after our own. We ask the same of those who pass through.",
+      "The blight spreading from the eastern hollow is unnatural. It creeps a little further each season.",
+      "My grandmother used to say that the standing stones in Darkwood Forest were doors. I never asked her to where."
+    ],
+    "associated_quest_ids": ["investigate_warden"],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_innkeeper_bram",
+    "name": "Bram",
+    "title": "Innkeeper",
+    "role": "Innkeeper",
+    "location_id": "thornfield_village",
+    "personality": "A jovial, rotund human man who runs The Thorny Crown, Thornfield's only tavern. Bram loves to laugh, cook enormous meals, and sing off-key ballads after his third ale. He is kind-hearted and somewhat naive, always seeing the best in people. He worries about the goblin raids but handles his fear with humor.",
+    "greeting": "Welcome to The Thorny Crown! Best stew in the valley, and that's not bragging — it's a fact. Pull up a chair!",
+    "dialogue_hooks": [
+      "My venison stew has won over harder hearts than yours, friend. Let me fix you a bowl.",
+      "Goblin raids or no goblin raids, I keep this tavern open. People need a warm place and a hot meal.",
+      "Old Marta comes in every evening for her elderberry wine. She's got stories that'll make your hair stand on end.",
+      "I heard the Temple of the Dawn is looking for help. Sister Aurelia had one of her visions again."
+    ],
+    "associated_quest_ids": [],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_old_marta",
+    "name": "Marta",
+    "title": "Old",
+    "role": "Villager",
+    "location_id": "thornfield_village",
+    "personality": "A wizened human woman in her eighties with a sharp tongue and an even sharper memory. Old Marta is the unofficial historian of Thornfield and the surrounding region. She speaks her mind without filter, complains about her joints, and punctuates her stories with dramatic pauses. Despite her grumbling exterior, she cares deeply about the younger generations.",
+    "greeting": "Oh, an adventurer. Sit down before you track mud everywhere. I suppose you want to hear about the old days.",
+    "dialogue_hooks": [
+      "I was a girl when the last expedition went into Aldenmere. Only one came back, and he never spoke again.",
+      "The Darkwood wasn't always dark, you know. Something changed in it about forty years ago. The trees grew angry.",
+      "There's a hag in the Whispering Marsh. My mother warned me about her, and her mother before that. The hag outlives us all.",
+      "In my day, we didn't need adventurers. The town guard was fifty strong. Now look at us."
+    ],
+    "associated_quest_ids": [],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_priestess_aurelia",
+    "name": "Aurelia",
+    "title": "Sister",
+    "role": "Priest",
+    "location_id": "temple_of_the_dawn",
+    "personality": "A serene human woman in her thirties with golden hair and calm, steady eyes. Aurelia is the high priestess of Lathander at the Temple of the Dawn. She speaks with quiet conviction and genuine compassion. She has been receiving visions of encroaching darkness and believes the gods are calling champions to face it. She is brave but humble, and never asks others to do what she would not do herself.",
+    "greeting": "Welcome to the Temple of the Dawn. The Morninglord's light shines upon all who seek it. How may I help you?",
+    "dialogue_hooks": [
+      "I have seen visions — fragments of a great darkness gathering strength. Three holy relics of Lathander must be recovered to strengthen our wards.",
+      "The Dawn Shard was lost in the Darkwood Forest, near the old druid circle. The Morninglord's Chalice lies in the Silver Mine, and the Sunburst Medallion in the Aldenmere ruins.",
+      "We offer healing to all who come to the temple. Lathander asks only that we show compassion.",
+      "Brother Aldric tends the temple gardens. His remedies are excellent, if you need supplies for your journey."
+    ],
+    "associated_quest_ids": ["temple_restoration"],
+    "associated_shop_id": "shop_temple_remedies"
+  },
+  {
+    "npc_id": "npc_brother_aldric",
+    "name": "Aldric",
+    "title": "Brother",
+    "role": "Priest",
+    "location_id": "temple_of_the_dawn",
+    "personality": "A young, earnest human man with ink-smudged hands and an apologetic manner. Brother Aldric is the temple's herbalist and record-keeper. He is bookish, slightly anxious, and constantly worried he's not doing enough. He knows an enormous amount about herbs, religious history, and local lore, though he rarely volunteers information unless asked directly.",
+    "greeting": "Oh! Hello. Welcome to the temple. I'm Brother Aldric. Can I help you with something? Sister Aurelia is in the main hall if you need her.",
+    "dialogue_hooks": [
+      "The temple archives mention Aldenmere quite frequently. It was a center of learning before the catastrophe.",
+      "I've been cataloguing the effects of the blight spreading from the east. The corruption is definitely magical in nature.",
+      "Our healing spring has been flowing weaker lately. Sister Aurelia says it's connected to the missing relics.",
+      "I grow most of our medicinal herbs in the temple garden. The golden chrysanthemums are Lathander's sacred flower."
+    ],
+    "associated_quest_ids": [],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_ranger_lira",
+    "name": "Lira",
+    "title": "Ranger",
+    "role": "Ranger",
+    "location_id": "darkwood_forest",
+    "personality": "A lean, alert wood elf with close-cropped dark hair and forest-green leathers. Lira is quiet, observant, and deeply protective of the Darkwood Forest. She speaks sparingly and precisely, wasting no words. She has tracked the creatures of these woods for decades and knows every trail and danger. She is slow to warm to strangers but fiercely loyal to those who earn her trust.",
+    "greeting": "You're either very brave or very foolish, walking into Darkwood without a guide. Which is it?",
+    "dialogue_hooks": [
+      "Something is corrupting the marsh to the east. I've heard voices in the fog — whispering, calling. A hag's work, I'm certain.",
+      "The goblin caves are northeast of here. I can point you to the entrance, but I won't go underground. That's not my world.",
+      "There's a druid deeper in the forest, Oakenhart. If anyone knows what's happening to these woods, it's him.",
+      "I've found dead animals with no marks on them. No predator, no disease. Just... dead. It's the blight."
+    ],
+    "associated_quest_ids": ["whispering_marsh_mystery"],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_druid_oakenhart",
+    "name": "Oakenhart",
+    "title": "Druid",
+    "role": "Druid",
+    "location_id": "hermits_grove",
+    "personality": "An ancient firbolg druid who has tended the Darkwood Forest for over two centuries. Oakenhart speaks slowly and deliberately, often in metaphors drawn from nature. He sees the world in cycles of growth and decay and is deeply troubled by the unnatural corruption spreading through the land. He is peaceful but not passive — he will act with terrible force to protect the balance of nature.",
+    "greeting": "The trees told me you were coming. They are seldom wrong. Sit, share my fire, and tell me why the forest guided you here.",
+    "dialogue_hooks": [
+      "The forest is sick. Not the slow sickness of winter, but a rot that spreads against the natural order.",
+      "I knew the druids who once tended the stone circles here. They departed when the darkness first stirred, decades ago.",
+      "The standing stones are anchors. They hold the boundaries between this world and others. Some of those boundaries are weakening.",
+      "If you seek the Dawn Shard, it rests in the old circle to the northwest. But the corruption has claimed that ground."
+    ],
+    "associated_quest_ids": [],
+    "associated_shop_id": null
+  },
+  {
+    "npc_id": "npc_warden_corvus",
+    "name": "Corvus",
+    "title": "The Warden",
+    "role": "Sage",
+    "location_id": "ravenwatch_tower",
+    "personality": "A gaunt, pale human man of indeterminate age wearing dark robes and a silver raven brooch. Corvus is enigmatic, deliberate, and unsettlingly calm. He speaks in a measured, quiet voice and chooses his words with precision. His true motives are unclear — he claims to be watching the eastern darkness and preparing defenses, but his methods are secretive. He is neither clearly good nor evil, and every answer he gives raises more questions.",
+    "greeting": "So. You've found your way to my tower. Few do without reason. Tell me yours.",
+    "dialogue_hooks": [
+      "I watch the east. The Blighted Hollow is a wound in the land, and wounds fester if left untended.",
+      "My ravens are my eyes and ears. Through them, I see what others cannot. Or will not.",
+      "You distrust me. Good. Trust is earned, not given. Ask your questions — I may even answer some of them.",
+      "The destruction of Aldenmere was not an accident. It was a ritual that went wrong. Or perhaps it went exactly as intended.",
+      "Elder Morvaine thinks me a villain. She is not entirely wrong, nor entirely right."
+    ],
+    "associated_quest_ids": ["investigate_warden"],
+    "associated_shop_id": null
+  }
+]

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkf5xr7m2cqvd"]
+
+[ext_resource type="Script" path="res://Scripts/Combat/CombatGrid.cs" id="1_grid"]
+[ext_resource type="Script" path="res://Scripts/Combat/CombatGridRenderer.cs" id="2_renderer"]
+
+[node name="CombatGrid" type="Node2D"]
+script = ExtResource("1_grid")
+CellSize = 64
+
+[node name="Renderer" type="Node2D" parent="."]
+script = ExtResource("2_renderer")
+GridPath = NodePath("..")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+zoom = Vector2(1, 1)

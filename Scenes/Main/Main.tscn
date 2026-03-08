@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b785wm2w4gqs2"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Main/TransitionOverlay.tscn" id="1_transition"]
+[ext_resource type="Script" path="res://Scripts/Core/GameLoop.cs" id="2_gameloop"]
+
+[node name="Main" type="Node"]
+
+[node name="TransitionLayer" parent="." instance=ExtResource("1_transition")]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="GameLoop" type="Node" parent="."]
+script = ExtResource("2_gameloop")

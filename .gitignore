@@ -1,0 +1,30 @@
+# Godot
+.godot/
+*.import
+
+# .NET / C#
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.db-shm
+*.db-wal
+
+# NuGet
+packages/
+
+# Runtime
+Saves/*.db
+Saves/*.json
+
+# OS
+Thumbs.db
+.DS_Store
+.claude/

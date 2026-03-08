@@ -1,0 +1,530 @@
+; ExplorationUI.tscn
+; Exploration screen for Chronicles Unbound.
+; Viewport: 1280x720 (stretch mode: canvas_items, aspect: expand)
+; Layout summary:
+;   VBoxContainer (root, full viewport)
+;     PanelContainer (top bar — location header + danger indicator, ~60px)
+;     HBoxContainer (main body — expands to fill remaining height)
+;       VBoxContainer (left — party panel, ~220px)
+;       VBoxContainer (centre — narrative + actions, expands)
+;       VBoxContainer (right — location list + connected locations, ~220px)
+;
+; All interactive nodes use scene-unique names (%) for @onready resolution.
+
+[gd_scene format=3 uid="uid://exploration_ui"]
+
+; ── External script reference ─────────────────────────────────────────────────
+[ext_resource type="Script" path="res://Scripts/UI/ExplorationUI.gd" id="1_explorationui"]
+
+; ── StyleBoxFlat resources ────────────────────────────────────────────────────
+; Match NarrativeUI palette exactly.
+
+; Root background — deep navy-charcoal
+[sub_resource type="StyleBoxFlat" id="StyleBox_bg_dark"]
+bg_color = Color(0.086, 0.086, 0.157, 1.0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Top bar — lighter charcoal with bottom gold border
+[sub_resource type="StyleBoxFlat" id="StyleBox_topbar"]
+bg_color = Color(0.102, 0.102, 0.18, 1.0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Panel background — same as NarrativeUI party panel
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
+bg_color = Color(0.086, 0.086, 0.157, 1.0)
+border_width_left = 1
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color(0.35, 0.30, 0.18, 0.6)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+; Narrative panel — darkest inset background
+[sub_resource type="StyleBoxFlat" id="StyleBox_narrative_panel"]
+bg_color = Color(0.063, 0.063, 0.118, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+
+; Party slot card
+[sub_resource type="StyleBoxFlat" id="StyleBox_slot_card"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.5)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+
+; Location list card
+[sub_resource type="StyleBoxFlat" id="StyleBox_location_card"]
+bg_color = Color(0.063, 0.063, 0.118, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+; Action buttons — normal state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_normal"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; Action buttons — hover state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_hover"]
+bg_color = Color(0.18, 0.16, 0.10, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; Action buttons — pressed state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_pressed"]
+bg_color = Color(0.25, 0.20, 0.06, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; Travel button — normal (prominent gold fill)
+[sub_resource type="StyleBoxFlat" id="StyleBox_travel_normal"]
+bg_color = Color(0.18, 0.14, 0.04, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; Travel button — hover
+[sub_resource type="StyleBoxFlat" id="StyleBox_travel_hover"]
+bg_color = Color(0.28, 0.22, 0.06, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+; HP bar background track
+[sub_resource type="StyleBoxFlat" id="StyleBox_hpbar_bg"]
+bg_color = Color(0.08, 0.08, 0.08, 1.0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+; HP bar fill — green default (overridden at runtime based on ratio)
+[sub_resource type="StyleBoxFlat" id="StyleBox_hpbar_fill"]
+bg_color = Color(0.18, 0.80, 0.44, 1.0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+; ── Scene tree ────────────────────────────────────────────────────────────────
+
+; Root — full-viewport Control with the GDScript controller attached.
+[node name="ExplorationUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_bg_dark")
+script = ExtResource("1_explorationui")
+
+; ══════════════════════════════════════════════════════════════════════════════
+; OUTER VERTICAL LAYOUT
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="RootVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+; ══════════════════════════════════════════════════════════════════════════════
+; TOP BAR — location name + type + danger indicator
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="TopBar" type="PanelContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 60)
+theme_override_styles/panel = SubResource("StyleBox_topbar")
+
+[node name="TopBarMargin" type="MarginContainer" parent="RootVBox/TopBar"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="TopBarVBox" type="VBoxContainer" parent="RootVBox/TopBar/TopBarMargin"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 2
+
+; Location name — large gold text
+[node name="LocationNameLabel" type="Label" parent="RootVBox/TopBar/TopBarMargin/TopBarVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Unknown Location"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 18
+
+; Bottom row: type tag + danger indicator
+[node name="LocationInfoRow" type="HBoxContainer" parent="RootVBox/TopBar/TopBarMargin/TopBarVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LocationTypeLabel" type="Label" parent="RootVBox/TopBar/TopBarMargin/TopBarVBox/LocationInfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Wilderness"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 12
+
+; Danger level indicator — row of colored dots
+[node name="DangerLabel" type="Label" parent="RootVBox/TopBar/TopBarMargin/TopBarVBox/LocationInfoRow"]
+layout_mode = 2
+text = "Danger:"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 12
+
+[node name="DangerDotsLabel" type="Label" parent="RootVBox/TopBar/TopBarMargin/TopBarVBox/LocationInfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "●●○○○"
+theme_override_colors/font_color = Color(0.953, 0.612, 0.071, 1.0)
+theme_override_font_sizes/font_size = 12
+
+; ══════════════════════════════════════════════════════════════════════════════
+; MAIN BODY — left (party) + centre (narrative + actions) + right (locations)
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="MainHBox" type="HBoxContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+; ══════════════════════════════════════════════════════════════════════════════
+; LEFT PANEL — party members (compact)
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="LeftPanel" type="PanelContainer" parent="RootVBox/MainHBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(220, 0)
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBox_panel")
+
+[node name="LeftVBox" type="VBoxContainer" parent="RootVBox/MainHBox/LeftPanel"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 6
+
+; Party header
+[node name="PartyHeaderLabel" type="Label" parent="RootVBox/MainHBox/LeftPanel/LeftVBox"]
+layout_mode = 2
+text = "PARTY"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+
+[node name="PartyDivider" type="HSeparator" parent="RootVBox/MainHBox/LeftPanel/LeftVBox"]
+layout_mode = 2
+
+; Scrollable party member list
+[node name="PartyScroll" type="ScrollContainer" parent="RootVBox/MainHBox/LeftPanel/LeftVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="PartyVBox" type="VBoxContainer" parent="RootVBox/MainHBox/LeftPanel/LeftVBox/PartyScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+; Party member slots are created at runtime by the script.
+; Template structure per slot (built in GDScript):
+;   PartySlotN (PanelContainer, StyleBox_slot_card)
+;     SlotVBox (VBoxContainer, separation=2)
+;       SlotNameLabel (Label, gold for slot 0, off-white for others)
+;       SlotClassLabel (Label, muted)
+;       SlotHPBar (ProgressBar, 6px height)
+;       SlotHPLabel (Label, "hp / max_hp", right-aligned, size 10)
+
+; ── Toolbar buttons (Inventory / Journal) ─────────────────────────────────────
+
+[node name="ToolbarDivider" type="HSeparator" parent="RootVBox/MainHBox/LeftPanel/LeftVBox"]
+layout_mode = 2
+
+[node name="ToolbarHBox" type="HBoxContainer" parent="RootVBox/MainHBox/LeftPanel/LeftVBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="InventoryButton" type="Button" parent="RootVBox/MainHBox/LeftPanel/LeftVBox/ToolbarHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Inventory [I]"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.961, 0.843, 0.431, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.980, 0.804, 1.0)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+
+[node name="JournalButton" type="Button" parent="RootVBox/MainHBox/LeftPanel/LeftVBox/ToolbarHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Journal [J]"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.961, 0.843, 0.431, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.980, 0.804, 1.0)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+
+[node name="SaveButton" type="Button" parent="RootVBox/MainHBox/LeftPanel/LeftVBox/ToolbarHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save [F5]"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.961, 0.843, 0.431, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.980, 0.804, 1.0)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+
+; ══════════════════════════════════════════════════════════════════════════════
+; CENTRE PANEL — narrative text + action buttons
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="CentrePanel" type="PanelContainer" parent="RootVBox/MainHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_bg_dark")
+
+[node name="CentreVBox" type="VBoxContainer" parent="RootVBox/MainHBox/CentrePanel"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 8
+
+; ── Narrative text area ────────────────────────────────────────────────────────
+
+[node name="NarrativePanelMargin" type="MarginContainer" parent="RootVBox/MainHBox/CentrePanel/CentreVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 0
+
+[node name="NarrativePanel" type="PanelContainer" parent="RootVBox/MainHBox/CentrePanel/CentreVBox/NarrativePanelMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_narrative_panel")
+
+[node name="NarrativeLabel" type="RichTextLabel" parent="RootVBox/MainHBox/CentrePanel/CentreVBox/NarrativePanelMargin/NarrativePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+scroll_following = true
+selection_enabled = true
+bbcode_enabled = true
+text = ""
+theme_override_colors/default_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_shadow_color = Color(0.0, 0.0, 0.0, 0.5)
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/bold_font_size = 14
+theme_override_font_sizes/italics_font_size = 14
+
+; ── Action buttons ─────────────────────────────────────────────────────────────
+
+[node name="ActionsMargin" type="MarginContainer" parent="RootVBox/MainHBox/CentrePanel/CentreVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+; Action buttons are created at runtime based on GetAvailableActions().
+; We use a VBoxContainer to stack them vertically.
+[node name="ActionsVBox" type="VBoxContainer" parent="RootVBox/MainHBox/CentrePanel/CentreVBox/ActionsMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+; ══════════════════════════════════════════════════════════════════════════════
+; RIGHT PANEL — connected locations + minimap
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="RightPanel" type="PanelContainer" parent="RootVBox/MainHBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(220, 0)
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBox_panel")
+
+[node name="RightVBox" type="VBoxContainer" parent="RootVBox/MainHBox/RightPanel"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 6
+
+; ── Connected Locations header ─────────────────────────────────────────────────
+
+[node name="LocationsHeaderLabel" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox"]
+layout_mode = 2
+text = "CONNECTED LOCATIONS"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+
+[node name="LocationsDivider" type="HSeparator" parent="RootVBox/MainHBox/RightPanel/RightVBox"]
+layout_mode = 2
+
+; ── Scrollable location list ───────────────────────────────────────────────────
+
+[node name="LocationsScroll" type="ScrollContainer" parent="RootVBox/MainHBox/RightPanel/RightVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="LocationsVBox" type="VBoxContainer" parent="RootVBox/MainHBox/RightPanel/RightVBox/LocationsScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+; Location cards are created at runtime by the script when update_connected_locations() is called.
+; Template structure per location card (built in GDScript):
+;   LocationCardN (PanelContainer, StyleBox_location_card)
+;     CardVBox (VBoxContainer, separation=2)
+;       LocationNameLabel (Label, gold accent)
+;       LocationTypeLabel (Label, muted)
+;       LocationDistanceLabel (Label, muted, "N hops away")
+;       TravelButton (Button, StyleBox_travel_normal/hover)

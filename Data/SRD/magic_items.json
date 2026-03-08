@@ -1,0 +1,792 @@
+[
+  {
+    "name": "+1 Longsword",
+    "description": "A finely crafted longsword imbued with magical energy, granting +1 to attack and damage rolls.",
+    "weight": 3.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Slashing",
+      "weaponProperties": "Versatile",
+      "versatileDamage": "1d10",
+      "cost": "1000",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Longsword",
+    "description": "A longsword radiating potent magical energy, granting +2 to attack and damage rolls.",
+    "weight": 3.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Slashing",
+      "weaponProperties": "Versatile",
+      "versatileDamage": "1d10",
+      "cost": "4000",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Longsword",
+    "description": "A legendary longsword blazing with magical power, granting +3 to attack and damage rolls.",
+    "weight": 3.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Slashing",
+      "weaponProperties": "Versatile",
+      "versatileDamage": "1d10",
+      "cost": "16000",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+1 Shortsword",
+    "description": "A keen shortsword imbued with magical energy, granting +1 to attack and damage rolls.",
+    "weight": 2.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "weaponProperties": "Finesse, Light",
+      "cost": "1000",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Shortsword",
+    "description": "A shortsword pulsing with potent magical energy, granting +2 to attack and damage rolls.",
+    "weight": 2.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "weaponProperties": "Finesse, Light",
+      "cost": "4000",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Shortsword",
+    "description": "A legendary shortsword crackling with magical power, granting +3 to attack and damage rolls.",
+    "weight": 2.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "weaponProperties": "Finesse, Light",
+      "cost": "16000",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+1 Greatsword",
+    "description": "A massive greatsword imbued with magical energy, granting +1 to attack and damage rolls.",
+    "weight": 6.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "2d6",
+      "damageType": "Slashing",
+      "weaponProperties": "Heavy, Two-Handed",
+      "cost": "1050",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Greatsword",
+    "description": "A greatsword radiating potent magical energy, granting +2 to attack and damage rolls.",
+    "weight": 6.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "2d6",
+      "damageType": "Slashing",
+      "weaponProperties": "Heavy, Two-Handed",
+      "cost": "4050",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Greatsword",
+    "description": "A legendary greatsword blazing with magical power, granting +3 to attack and damage rolls.",
+    "weight": 6.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "2d6",
+      "damageType": "Slashing",
+      "weaponProperties": "Heavy, Two-Handed",
+      "cost": "16050",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+1 Dagger",
+    "description": "A razor-sharp dagger imbued with magical energy, granting +1 to attack and damage rolls.",
+    "weight": 1.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d4",
+      "damageType": "Piercing",
+      "weaponProperties": "Finesse, Light, Thrown",
+      "range": "20/60",
+      "cost": "1000",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Dagger",
+    "description": "A dagger pulsing with potent magical energy, granting +2 to attack and damage rolls.",
+    "weight": 1.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d4",
+      "damageType": "Piercing",
+      "weaponProperties": "Finesse, Light, Thrown",
+      "range": "20/60",
+      "cost": "4000",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Dagger",
+    "description": "A legendary dagger crackling with magical power, granting +3 to attack and damage rolls.",
+    "weight": 1.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d4",
+      "damageType": "Piercing",
+      "weaponProperties": "Finesse, Light, Thrown",
+      "range": "20/60",
+      "cost": "16000",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+1 Longbow",
+    "description": "A finely crafted longbow imbued with magical energy, granting +1 to attack and damage rolls.",
+    "weight": 2.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "weaponProperties": "Ammunition, Heavy, Two-Handed",
+      "range": "150/600",
+      "cost": "1050",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Longbow",
+    "description": "A longbow radiating potent magical energy, granting +2 to attack and damage rolls.",
+    "weight": 2.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "weaponProperties": "Ammunition, Heavy, Two-Handed",
+      "range": "150/600",
+      "cost": "4050",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Longbow",
+    "description": "A legendary longbow blazing with magical power, granting +3 to attack and damage rolls.",
+    "weight": 2.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "weaponProperties": "Ammunition, Heavy, Two-Handed",
+      "range": "150/600",
+      "cost": "16050",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+1 Mace",
+    "description": "A sturdy mace imbued with magical energy, granting +1 to attack and damage rolls.",
+    "weight": 4.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d6",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "",
+      "cost": "1000",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Mace",
+    "description": "A mace pulsing with potent magical energy, granting +2 to attack and damage rolls.",
+    "weight": 4.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d6",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "",
+      "cost": "4000",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Mace",
+    "description": "A legendary mace blazing with magical power, granting +3 to attack and damage rolls.",
+    "weight": 4.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d6",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "",
+      "cost": "16000",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+1 Leather Armor",
+    "description": "Leather armor imbued with protective magic, granting an additional +1 to AC.",
+    "weight": 10.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Light",
+      "armorClass": "12",
+      "addDex": "true",
+      "maxDexBonus": "",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "1000",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Leather Armor",
+    "description": "Leather armor radiating potent protective magic, granting an additional +2 to AC.",
+    "weight": 10.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Light",
+      "armorClass": "13",
+      "addDex": "true",
+      "maxDexBonus": "",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "4000",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Leather Armor",
+    "description": "Legendary leather armor blazing with protective power, granting an additional +3 to AC.",
+    "weight": 10.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Light",
+      "armorClass": "14",
+      "addDex": "true",
+      "maxDexBonus": "",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "16000",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+1 Chain Mail",
+    "description": "Chain mail imbued with protective magic, granting an additional +1 to AC.",
+    "weight": 55.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "17",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "13",
+      "cost": "1075",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Chain Mail",
+    "description": "Chain mail radiating potent protective magic, granting an additional +2 to AC.",
+    "weight": 55.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "18",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "13",
+      "cost": "4075",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Chain Mail",
+    "description": "Legendary chain mail blazing with protective power, granting an additional +3 to AC.",
+    "weight": 55.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "19",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "13",
+      "cost": "16075",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+1 Plate Armor",
+    "description": "Plate armor imbued with protective magic, granting an additional +1 to AC.",
+    "weight": 65.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "19",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "15",
+      "cost": "2500",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Plate Armor",
+    "description": "Plate armor radiating potent protective magic, granting an additional +2 to AC.",
+    "weight": 65.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "20",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "15",
+      "cost": "5500",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Plate Armor",
+    "description": "Legendary plate armor blazing with protective power, granting an additional +3 to AC.",
+    "weight": 65.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "21",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "15",
+      "cost": "17500",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+1 Shield",
+    "description": "A shield imbued with protective magic, granting an additional +1 to AC beyond the normal +2.",
+    "weight": 6.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Shield",
+      "armorClass": "2",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "1010",
+      "magicBonus": "1",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+2 Shield",
+    "description": "A shield radiating potent protective magic, granting an additional +2 to AC beyond the normal +2.",
+    "weight": 6.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Shield",
+      "armorClass": "2",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "4010",
+      "magicBonus": "2",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "+3 Shield",
+    "description": "A legendary shield blazing with protective power, granting an additional +3 to AC beyond the normal +2.",
+    "weight": 6.0,
+    "rarity": "VeryRare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Shield",
+      "armorClass": "2",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "16010",
+      "magicBonus": "3",
+      "requiresAttunement": "false"
+    }
+  },
+  {
+    "name": "Cloak of Protection",
+    "description": "You gain a +1 bonus to AC and saving throws while you wear this cloak.",
+    "weight": 1.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "category": "cloak",
+      "cost": "3500",
+      "requiresAttunement": "true",
+      "magicEffects": "[{\"type\":\"Passive\",\"stat\":\"AC\",\"value\":\"+1\",\"description\":\"You gain a +1 bonus to AC.\"},{\"type\":\"Passive\",\"stat\":\"SavingThrows\",\"value\":\"+1\",\"description\":\"You gain a +1 bonus to saving throws.\"}]"
+    }
+  },
+  {
+    "name": "Ring of Protection",
+    "description": "You gain a +1 bonus to AC and saving throws while wearing this ring.",
+    "weight": 0.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "category": "ring",
+      "cost": "3500",
+      "requiresAttunement": "true",
+      "magicEffects": "[{\"type\":\"Passive\",\"stat\":\"AC\",\"value\":\"+1\",\"description\":\"You gain a +1 bonus to AC.\"},{\"type\":\"Passive\",\"stat\":\"SavingThrows\",\"value\":\"+1\",\"description\":\"You gain a +1 bonus to saving throws.\"}]"
+    }
+  },
+  {
+    "name": "Boots of Elvenkind",
+    "description": "While you wear these boots, your steps make no sound. You have advantage on Dexterity (Stealth) checks that rely on moving silently.",
+    "weight": 1.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "category": "boots",
+      "cost": "2500",
+      "requiresAttunement": "false",
+      "magicEffects": "[{\"type\":\"Passive\",\"stat\":\"AbilityScore\",\"value\":\"0\",\"description\":\"Advantage on Stealth checks that rely on moving silently.\"}]"
+    }
+  },
+  {
+    "name": "Gauntlets of Ogre Power",
+    "description": "Your Strength score is 19 while you wear these gauntlets. They have no effect if your Strength is already 19 or higher.",
+    "weight": 1.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "category": "gloves",
+      "cost": "8000",
+      "requiresAttunement": "true",
+      "magicEffects": "[{\"type\":\"Passive\",\"stat\":\"AbilityScore\",\"value\":\"19\",\"description\":\"Your Strength score is 19 while you wear these gauntlets.\"}]"
+    }
+  },
+  {
+    "name": "Headband of Intellect",
+    "description": "Your Intelligence score is 19 while you wear this headband. It has no effect if your Intelligence is already 19 or higher.",
+    "weight": 0.0,
+    "rarity": "Uncommon",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "category": "head",
+      "cost": "8000",
+      "requiresAttunement": "true",
+      "magicEffects": "[{\"type\":\"Passive\",\"stat\":\"AbilityScore\",\"value\":\"19\",\"description\":\"Your Intelligence score is 19 while you wear this headband.\"}]"
+    }
+  },
+  {
+    "name": "Amulet of Health",
+    "description": "Your Constitution score is 19 while you wear this amulet. It has no effect if your Constitution is already 19 or higher.",
+    "weight": 1.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "category": "neck",
+      "cost": "8000",
+      "requiresAttunement": "true",
+      "magicEffects": "[{\"type\":\"Passive\",\"stat\":\"AbilityScore\",\"value\":\"19\",\"description\":\"Your Constitution score is 19 while you wear this amulet.\"}]"
+    }
+  },
+  {
+    "name": "Bracers of Defense",
+    "description": "While wearing these bracers, you gain a +2 bonus to AC if you are wearing no armor and using no shield.",
+    "weight": 1.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "category": "gloves",
+      "cost": "6000",
+      "requiresAttunement": "true",
+      "magicEffects": "[{\"type\":\"Passive\",\"stat\":\"AC\",\"value\":\"+2\",\"condition\":\"no armor\",\"description\":\"You gain a +2 bonus to AC if wearing no armor and using no shield.\"}]"
+    }
+  },
+  {
+    "name": "Ring of Resistance",
+    "description": "You have resistance to fire damage while wearing this ring.",
+    "weight": 0.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "category": "ring",
+      "cost": "6000",
+      "requiresAttunement": "true",
+      "magicEffects": "[{\"type\":\"Resistance\",\"damageType\":\"Fire\",\"description\":\"You have resistance to fire damage.\"}]"
+    }
+  },
+  {
+    "name": "Bag of Holding",
+    "description": "This bag has an interior space considerably larger than its outside dimensions. It can hold up to 500 pounds, not exceeding a volume of 64 cubic feet.",
+    "weight": 15.0,
+    "rarity": "Uncommon",
+    "isEquippable": false,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "cost": "4000",
+      "requiresAttunement": "false",
+      "magicEffects": "[{\"type\":\"Passive\",\"description\":\"Interior can hold up to 500 pounds not exceeding 64 cubic feet. The bag weighs 15 pounds regardless of contents.\"}]"
+    }
+  },
+  {
+    "name": "Cloak of Displacement",
+    "description": "While you wear this cloak, creatures have disadvantage on attack rolls against you. If you take damage, this property ceases to function until the start of your next turn.",
+    "weight": 1.0,
+    "rarity": "Rare",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Wondrous",
+      "category": "cloak",
+      "cost": "6000",
+      "requiresAttunement": "true",
+      "magicEffects": "[{\"type\":\"Passive\",\"description\":\"Creatures have disadvantage on attack rolls against you. If you take damage, this property ceases until the start of your next turn.\"}]"
+    }
+  },
+  {
+    "name": "Potion of Greater Healing",
+    "description": "A swirling red potion that restores a significant amount of vitality. Heals 4d4+4 hit points.",
+    "weight": 0.5,
+    "rarity": "Uncommon",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "100",
+      "effect": "Heal 4d4+4 HP",
+      "healAmount": "4d4+4"
+    }
+  },
+  {
+    "name": "Potion of Superior Healing",
+    "description": "A brightly glowing red potion that restores a large amount of vitality. Heals 8d4+8 hit points.",
+    "weight": 0.5,
+    "rarity": "Rare",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "500",
+      "effect": "Heal 8d4+8 HP",
+      "healAmount": "8d4+8"
+    }
+  },
+  {
+    "name": "Potion of Supreme Healing",
+    "description": "A brilliant ruby potion that restores a tremendous amount of vitality. Heals 10d4+20 hit points.",
+    "weight": 0.5,
+    "rarity": "VeryRare",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "5000",
+      "effect": "Heal 10d4+20 HP",
+      "healAmount": "10d4+20"
+    }
+  },
+  {
+    "name": "Potion of Fire Resistance",
+    "description": "When you drink this potion, you gain resistance to fire damage for 1 hour.",
+    "weight": 0.5,
+    "rarity": "Uncommon",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "300",
+      "effect": "Resistance to fire damage for 1 hour"
+    }
+  },
+  {
+    "name": "Potion of Invisibility",
+    "description": "This potion's container looks empty but feels as though it holds liquid. When you drink it, you become invisible for 1 hour. Anything you wear or carry is invisible with you.",
+    "weight": 0.5,
+    "rarity": "VeryRare",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "5000",
+      "effect": "You become invisible for 1 hour. The effect ends early if you attack or cast a spell."
+    }
+  }
+]

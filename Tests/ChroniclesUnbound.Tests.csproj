@@ -1,0 +1,136 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>ChroniclesUnbound.Tests</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="NSubstitute" Version="5.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
+  </ItemGroup>
+
+  <!-- ================================================================== -->
+  <!-- Source file links: pure C# logic with NO Godot dependencies.       -->
+  <!-- These are compiled directly into the test assembly so we can test   -->
+  <!-- without requiring the Godot.NET.Sdk or engine runtime.             -->
+  <!-- ================================================================== -->
+  <ItemGroup Label="Core Rules Engine">
+    <Compile Include="..\Scripts\Core\DiceRoller.cs" Link="Source\Core\DiceRoller.cs" />
+    <Compile Include="..\Scripts\Core\DiceResult.cs" Link="Source\Core\DiceResult.cs" />
+    <Compile Include="..\Scripts\Core\CombatResolver.cs" Link="Source\Core\CombatResolver.cs" />
+    <Compile Include="..\Scripts\Core\AttackResult.cs" Link="Source\Core\AttackResult.cs" />
+    <Compile Include="..\Scripts\Core\SkillCheckResult.cs" Link="Source\Core\SkillCheckResult.cs" />
+    <Compile Include="..\Scripts\Core\SavingThrowResult.cs" Link="Source\Core\SavingThrowResult.cs" />
+    <Compile Include="..\Scripts\Core\ConditionManager.cs" Link="Source\Core\ConditionManager.cs" />
+    <Compile Include="..\Scripts\Core\ConditionEffect.cs" Link="Source\Core\ConditionEffect.cs" />
+    <Compile Include="..\Scripts\Core\XPThresholds.cs" Link="Source\Core\XPThresholds.cs" />
+  </ItemGroup>
+
+  <ItemGroup Label="Spell System">
+    <Compile Include="..\Scripts\Core\SpellSlotTracker.cs" Link="Source\Core\SpellSlotTracker.cs" />
+    <Compile Include="..\Scripts\Core\ConcentrationTracker.cs" Link="Source\Core\ConcentrationTracker.cs" />
+    <Compile Include="..\Scripts\Core\SpellCastingManager.cs" Link="Source\Core\SpellCastingManager.cs" />
+    <Compile Include="..\Scripts\Core\SpellCastResult.cs" Link="Source\Core\SpellCastResult.cs" />
+    <Compile Include="..\Scripts\Core\SpellDatabase.cs" Link="Source\Core\SpellDatabase.cs" />
+  </ItemGroup>
+
+  <ItemGroup Label="Character and Leveling">
+    <Compile Include="..\Scripts\Core\CharacterCreator.cs" Link="Source\Core\CharacterCreator.cs" />
+    <Compile Include="..\Scripts\Core\LevelUpManager.cs" Link="Source\Core\LevelUpManager.cs" />
+    <Compile Include="..\Scripts\Core\LevelUpInfo.cs" Link="Source\Core\LevelUpInfo.cs" />
+    <Compile Include="..\Scripts\Core\LevelUpChoices.cs" Link="Source\Core\LevelUpChoices.cs" />
+    <Compile Include="..\Scripts\Core\FeatData.cs" Link="Source\Core\FeatData.cs" />
+    <Compile Include="..\Scripts\Core\RestManager.cs" Link="Source\Core\RestManager.cs" />
+    <Compile Include="..\Scripts\Core\ShortRestResult.cs" Link="Source\Core\ShortRestResult.cs" />
+    <Compile Include="..\Scripts\Core\LongRestResult.cs" Link="Source\Core\LongRestResult.cs" />
+    <Compile Include="..\Scripts\Core\SRDDataLoader.cs" Link="Source\Core\SRDDataLoader.cs" />
+    <Compile Include="..\Scripts\Core\AttunementManager.cs" Link="Source\Core\AttunementManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup Label="Data Models">
+    <Compile Include="..\Scripts\Data\Enums.cs" Link="Source\Data\Enums.cs" />
+    <Compile Include="..\Scripts\Data\AbilityScores.cs" Link="Source\Data\AbilityScores.cs" />
+    <Compile Include="..\Scripts\Data\Character.cs" Link="Source\Data\Character.cs" />
+    <Compile Include="..\Scripts\Data\InventoryItem.cs" Link="Source\Data\InventoryItem.cs" />
+    <Compile Include="..\Scripts\Data\EquipmentSlot.cs" Link="Source\Data\EquipmentSlot.cs" />
+    <Compile Include="..\Scripts\Data\SpellData.cs" Link="Source\Data\SpellData.cs" />
+    <Compile Include="..\Scripts\Data\MonsterData.cs" Link="Source\Data\MonsterData.cs" />
+    <Compile Include="..\Scripts\Data\MonsterAction.cs" Link="Source\Data\MonsterAction.cs" />
+    <Compile Include="..\Scripts\Data\MonsterTrait.cs" Link="Source\Data\MonsterTrait.cs" />
+    <Compile Include="..\Scripts\Data\RaceData.cs" Link="Source\Data\RaceData.cs" />
+    <Compile Include="..\Scripts\Data\ClassData.cs" Link="Source\Data\ClassData.cs" />
+    <Compile Include="..\Scripts\Data\BackgroundData.cs" Link="Source\Data\BackgroundData.cs" />
+    <Compile Include="..\Scripts\Data\MagicEffect.cs" Link="Source\Data\MagicEffect.cs" />
+    <Compile Include="..\Scripts\Data\SaveSlotInfo.cs" Link="Source\Data\SaveSlotInfo.cs" />
+    <Compile Include="..\Scripts\Data\GameStateData.cs" Link="Source\Data\GameStateData.cs" />
+    <Compile Include="..\Scripts\Data\StoryThreadData.cs" Link="Source\Data\StoryThreadData.cs" />
+    <Compile Include="..\Scripts\Data\CampaignSaveData.cs" Link="Source\Data\CampaignSaveData.cs" />
+  </ItemGroup>
+
+  <ItemGroup Label="Companion Logic (pure C# only)">
+    <Compile Include="..\Scripts\Companions\CompanionAutonomy.cs" Link="Source\Companions\CompanionAutonomy.cs" />
+    <Compile Include="..\Scripts\Companions\CompanionPersonality.cs" Link="Source\Companions\CompanionPersonality.cs" />
+    <Compile Include="..\Scripts\Companions\CompanionAIProfile.cs" Link="Source\Companions\CompanionAIProfile.cs" />
+    <Compile Include="..\Scripts\Companions\CombatPriority.cs" Link="Source\Companions\CombatPriority.cs" />
+    <Compile Include="..\Scripts\Companions\TargetPreference.cs" Link="Source\Companions\TargetPreference.cs" />
+    <Compile Include="..\Scripts\Companions\PersonalQuestStage.cs" Link="Source\Companions\PersonalQuestStage.cs" />
+    <Compile Include="..\Scripts\Companions\RelationshipTier.cs" Link="Source\Companions\RelationshipTier.cs" />
+    <Compile Include="..\Scripts\Companions\RelationshipEvent.cs" Link="Source\Companions\RelationshipEvent.cs" />
+    <Compile Include="..\Scripts\Companions\RelationshipBonuses.cs" Link="Source\Companions\RelationshipBonuses.cs" />
+    <Compile Include="..\Scripts\Companions\CompanionGenerator.cs" Link="Source\Companions\CompanionGenerator.cs" />
+  </ItemGroup>
+
+  <ItemGroup Label="Exploration Data Models (pure C# only)">
+    <Compile Include="..\Scripts\Exploration\LocationType.cs" Link="Source\Exploration\LocationType.cs" />
+    <Compile Include="..\Scripts\Exploration\Location.cs" Link="Source\Exploration\Location.cs" />
+    <Compile Include="..\Scripts\Exploration\QuestObjective.cs" Link="Source\Exploration\QuestObjective.cs" />
+    <Compile Include="..\Scripts\Exploration\QuestData.cs" Link="Source\Exploration\QuestData.cs" />
+    <Compile Include="..\Scripts\Exploration\ShopInventory.cs" Link="Source\Exploration\ShopInventory.cs" />
+    <Compile Include="..\Scripts\Exploration\NPCData.cs" Link="Source\Exploration\NPCData.cs" />
+    <Compile Include="..\Scripts\Exploration\EncounterDifficulty.cs" Link="Source\Exploration\EncounterDifficulty.cs" />
+    <Compile Include="..\Scripts\Exploration\NPCDialogueResult.cs" Link="Source\Exploration\NPCDialogueResult.cs" />
+    <Compile Include="..\Scripts\Exploration\ExplorationSnapshot.cs" Link="Source\Exploration\ExplorationSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup Label="Journal (pure C# only)">
+    <Compile Include="..\Scripts\Journal\JournalEntry.cs" Link="Source\Journal\JournalEntry.cs" />
+  </ItemGroup>
+
+  <ItemGroup Label="LLM (pure C# only)">
+    <Compile Include="..\Scripts\LLM\LLMConfig.cs" Link="Source\LLM\LLMConfig.cs" />
+    <Compile Include="..\Scripts\LLM\LLMMessage.cs" Link="Source\LLM\LLMMessage.cs" />
+    <Compile Include="..\Scripts\LLM\LLMResponse.cs" Link="Source\LLM\LLMResponse.cs" />
+    <Compile Include="..\Scripts\LLM\NarrativeResult.cs" Link="Source\LLM\NarrativeResult.cs" />
+    <Compile Include="..\Scripts\LLM\CompanionDialogueResult.cs" Link="Source\LLM\CompanionDialogueResult.cs" />
+    <Compile Include="..\Scripts\LLM\PromptBuilder.cs" Link="Source\LLM\PromptBuilder.cs" />
+  </ItemGroup>
+
+  <ItemGroup Label="Combat Grid (with Godot stubs)">
+    <Compile Include="..\Scripts\Combat\TileType.cs" Link="Source\Combat\TileType.cs" />
+    <Compile Include="..\Scripts\Combat\CoverType.cs" Link="Source\Combat\CoverType.cs" />
+    <Compile Include="..\Scripts\Combat\GridCell.cs" Link="Source\Combat\GridCell.cs" />
+    <Compile Include="..\Scripts\Combat\CombatGrid.cs" Link="Source\Combat\CombatGrid.cs" />
+  </ItemGroup>
+
+  <!-- ================================================================== -->
+  <!-- EXCLUDED from compilation (Godot-dependent):                       -->
+  <!--   *Bridge.cs, SceneManager, GameStateManager, GameLoop,            -->
+  <!--   CombatGrid, CombatGridRenderer, CombatManager, Combatant,       -->
+  <!--   CombatAction, GridCell (uses Vector2I),                          -->
+  <!--   InventoryManager, DatabaseManager, SaveManager,                  -->
+  <!--   ShopManager, NPCManager, QuestManager, TravelManager,           -->
+  <!--   ExplorationManager, WorldMap, RelationshipManager,               -->
+  <!--   CompanionCombatAI, CombatAIPlan, ClassCombatBehaviors,           -->
+  <!--   CompanionDialogueManager, PromptTemplateLoader,                  -->
+  <!--   JournalManager, LLMService, ResponseParser,                     -->
+  <!--   SaveLoadBridge, CampaignSaveData                                -->
+  <!-- ================================================================== -->
+</Project>

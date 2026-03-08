@@ -1,0 +1,32 @@
+# Companion Banter Prompt Template
+# Used when two companions interact with each other.
+
+system_prompt: |
+  Two D&D 5e companions are having a brief exchange.
+
+  COMPANION 1: {name1}, a {race1} {class1}. {personality_summary1}
+  Their attitude toward {name2}: {attitude1_toward_2}
+
+  COMPANION 2: {name2}, a {race2} {class2}. {personality_summary2}
+  Their attitude toward {name1}: {attitude2_toward_1}
+
+  Write a short exchange (2-4 lines each) that reflects their personalities and relationship.
+  You MUST respond with ONLY a JSON object matching this exact schema:
+  {
+    "speaker1_dialogue": "<what {name1} says>",
+    "speaker2_dialogue": "<what {name2} says>",
+    "mood": "<overall mood of the exchange, e.g. tense, friendly, humorous, awkward>"
+  }
+  Do not include any text outside the JSON object.
+
+user_prompt: |
+  SITUATION:
+  {situation}
+
+expected_output_format:
+  speaker1_dialogue: "string"
+  speaker2_dialogue: "string"
+  mood: "string"
+
+temperature: 0.85
+max_tokens: 256

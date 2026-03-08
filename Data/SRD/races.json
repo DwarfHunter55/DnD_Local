@@ -1,0 +1,378 @@
+[
+  {
+    "name": "Human",
+    "speed": 30,
+    "size": "Medium",
+    "ability_bonuses": {
+      "strength": 1,
+      "dexterity": 1,
+      "constitution": 1,
+      "intelligence": 1,
+      "wisdom": 1,
+      "charisma": 1
+    },
+    "traits": [
+      "Extra Language"
+    ],
+    "languages": ["Common", "one additional"],
+    "proficiencies": {},
+    "subraces": []
+  },
+  {
+    "name": "Elf",
+    "speed": 30,
+    "size": "Medium",
+    "darkvision": 60,
+    "ability_bonuses": {
+      "dexterity": 2
+    },
+    "traits": [
+      "Darkvision",
+      "Keen Senses",
+      "Fey Ancestry",
+      "Trance"
+    ],
+    "proficiencies": {
+      "skills": ["Perception"]
+    },
+    "languages": ["Common", "Elvish"],
+    "subraces": [
+      {
+        "name": "High Elf",
+        "ability_bonuses": {
+          "intelligence": 1
+        },
+        "traits": [
+          "Elf Weapon Training",
+          "Cantrip",
+          "Extra Language"
+        ],
+        "proficiencies": {
+          "weapons": ["longsword", "shortsword", "shortbow", "longbow"]
+        },
+        "cantrip_choices": {
+          "count": 1,
+          "from": "wizard",
+          "spellcasting_ability": "intelligence"
+        }
+      },
+      {
+        "name": "Wood Elf",
+        "speed": 35,
+        "ability_bonuses": {
+          "wisdom": 1
+        },
+        "traits": [
+          "Elf Weapon Training",
+          "Fleet of Foot",
+          "Mask of the Wild"
+        ],
+        "proficiencies": {
+          "weapons": ["longsword", "shortsword", "shortbow", "longbow"]
+        }
+      },
+      {
+        "name": "Dark Elf (Drow)",
+        "darkvision": 120,
+        "ability_bonuses": {
+          "charisma": 1
+        },
+        "traits": [
+          "Superior Darkvision",
+          "Sunlight Sensitivity",
+          "Drow Magic",
+          "Drow Weapon Training"
+        ],
+        "proficiencies": {
+          "weapons": ["rapier", "shortsword", "hand crossbow"]
+        },
+        "spells": {
+          "innate": true,
+          "spellcasting_ability": "charisma",
+          "known": [
+            { "spell": "dancing lights", "level_required": 1, "usage": "at will" },
+            { "spell": "faerie fire", "level_required": 3, "usage": "1/long rest" },
+            { "spell": "darkness", "level_required": 5, "usage": "1/long rest" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Dwarf",
+    "speed": 25,
+    "size": "Medium",
+    "darkvision": 60,
+    "speed_note": "Speed is not reduced by wearing heavy armor",
+    "ability_bonuses": {
+      "constitution": 2
+    },
+    "traits": [
+      "Darkvision",
+      "Dwarven Resilience",
+      "Dwarven Combat Training",
+      "Stonecunning",
+      "Tool Proficiency"
+    ],
+    "proficiencies": {
+      "weapons": ["battleaxe", "handaxe", "light hammer", "warhammer"],
+      "tools_choice": {
+        "count": 1,
+        "from": ["smith's tools", "brewer's supplies", "mason's tools"]
+      }
+    },
+    "damage_resistances": ["Poison"],
+    "condition_advantages": ["Poisoned"],
+    "languages": ["Common", "Dwarvish"],
+    "subraces": [
+      {
+        "name": "Hill Dwarf",
+        "ability_bonuses": {
+          "wisdom": 1
+        },
+        "traits": [
+          "Dwarven Toughness"
+        ],
+        "hit_point_bonus_per_level": 1
+      },
+      {
+        "name": "Mountain Dwarf",
+        "ability_bonuses": {
+          "strength": 2
+        },
+        "traits": [
+          "Dwarven Armor Training"
+        ],
+        "proficiencies": {
+          "armor": ["light", "medium"]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Halfling",
+    "speed": 25,
+    "size": "Small",
+    "ability_bonuses": {
+      "dexterity": 2
+    },
+    "traits": [
+      "Lucky",
+      "Brave",
+      "Halfling Nimbleness"
+    ],
+    "proficiencies": {},
+    "languages": ["Common", "Halfling"],
+    "subraces": [
+      {
+        "name": "Lightfoot",
+        "ability_bonuses": {
+          "charisma": 1
+        },
+        "traits": [
+          "Naturally Stealthy"
+        ]
+      },
+      {
+        "name": "Stout",
+        "ability_bonuses": {
+          "constitution": 1
+        },
+        "traits": [
+          "Stout Resilience"
+        ],
+        "damage_resistances": ["Poison"],
+        "condition_advantages": ["Poisoned"]
+      }
+    ]
+  },
+  {
+    "name": "Gnome",
+    "speed": 25,
+    "size": "Small",
+    "darkvision": 60,
+    "ability_bonuses": {
+      "intelligence": 2
+    },
+    "traits": [
+      "Darkvision",
+      "Gnome Cunning"
+    ],
+    "proficiencies": {},
+    "languages": ["Common", "Gnomish"],
+    "subraces": [
+      {
+        "name": "Forest Gnome",
+        "ability_bonuses": {
+          "dexterity": 1
+        },
+        "traits": [
+          "Natural Illusionist",
+          "Speak with Small Beasts"
+        ],
+        "cantrip_choices": {
+          "count": 1,
+          "fixed": ["minor illusion"],
+          "spellcasting_ability": "intelligence"
+        }
+      },
+      {
+        "name": "Rock Gnome",
+        "ability_bonuses": {
+          "constitution": 1
+        },
+        "traits": [
+          "Artificer's Lore",
+          "Tinker"
+        ],
+        "proficiencies": {
+          "tools": ["tinker's tools"]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Half-Elf",
+    "speed": 30,
+    "size": "Medium",
+    "darkvision": 60,
+    "ability_bonuses": {
+      "charisma": 2
+    },
+    "ability_bonus_choices": {
+      "count": 2,
+      "amount": 1,
+      "from": ["strength", "dexterity", "constitution", "intelligence", "wisdom"]
+    },
+    "traits": [
+      "Darkvision",
+      "Fey Ancestry",
+      "Skill Versatility"
+    ],
+    "skill_choices": {
+      "count": 2,
+      "from": "any"
+    },
+    "proficiencies": {},
+    "languages": ["Common", "Elvish", "one additional"],
+    "subraces": []
+  },
+  {
+    "name": "Half-Orc",
+    "speed": 30,
+    "size": "Medium",
+    "darkvision": 60,
+    "ability_bonuses": {
+      "strength": 2,
+      "constitution": 1
+    },
+    "traits": [
+      "Darkvision",
+      "Menacing",
+      "Relentless Endurance",
+      "Savage Attacks"
+    ],
+    "proficiencies": {
+      "skills": ["Intimidation"]
+    },
+    "languages": ["Common", "Orc"],
+    "subraces": []
+  },
+  {
+    "name": "Tiefling",
+    "speed": 30,
+    "size": "Medium",
+    "darkvision": 60,
+    "ability_bonuses": {
+      "intelligence": 1,
+      "charisma": 2
+    },
+    "traits": [
+      "Darkvision",
+      "Hellish Resistance",
+      "Infernal Legacy"
+    ],
+    "damage_resistances": ["Fire"],
+    "proficiencies": {},
+    "languages": ["Common", "Infernal"],
+    "spells": {
+      "innate": true,
+      "spellcasting_ability": "charisma",
+      "known": [
+        { "spell": "thaumaturgy", "level_required": 1, "usage": "at will" },
+        { "spell": "hellish rebuke", "level_required": 3, "usage": "1/long rest", "cast_at_level": 2 },
+        { "spell": "darkness", "level_required": 5, "usage": "1/long rest" }
+      ]
+    },
+    "subraces": []
+  },
+  {
+    "name": "Dragonborn",
+    "speed": 30,
+    "size": "Medium",
+    "ability_bonuses": {
+      "strength": 2,
+      "charisma": 1
+    },
+    "traits": [
+      "Draconic Ancestry",
+      "Breath Weapon",
+      "Damage Resistance"
+    ],
+    "proficiencies": {},
+    "languages": ["Common", "Draconic"],
+    "draconic_ancestry": [
+      {
+        "dragon": "Black",
+        "damage_type": "Acid",
+        "breath_weapon": "5 by 30 ft. line (Dex. save)"
+      },
+      {
+        "dragon": "Blue",
+        "damage_type": "Lightning",
+        "breath_weapon": "5 by 30 ft. line (Dex. save)"
+      },
+      {
+        "dragon": "Brass",
+        "damage_type": "Fire",
+        "breath_weapon": "5 by 30 ft. line (Dex. save)"
+      },
+      {
+        "dragon": "Bronze",
+        "damage_type": "Lightning",
+        "breath_weapon": "5 by 30 ft. line (Dex. save)"
+      },
+      {
+        "dragon": "Copper",
+        "damage_type": "Acid",
+        "breath_weapon": "5 by 30 ft. line (Dex. save)"
+      },
+      {
+        "dragon": "Gold",
+        "damage_type": "Fire",
+        "breath_weapon": "15 ft. cone (Dex. save)"
+      },
+      {
+        "dragon": "Green",
+        "damage_type": "Poison",
+        "breath_weapon": "15 ft. cone (Con. save)"
+      },
+      {
+        "dragon": "Red",
+        "damage_type": "Fire",
+        "breath_weapon": "15 ft. cone (Dex. save)"
+      },
+      {
+        "dragon": "Silver",
+        "damage_type": "Cold",
+        "breath_weapon": "15 ft. cone (Con. save)"
+      },
+      {
+        "dragon": "White",
+        "damage_type": "Cold",
+        "breath_weapon": "15 ft. cone (Con. save)"
+      }
+    ],
+    "subraces": []
+  }
+]

@@ -1,0 +1,933 @@
+[
+  {
+    "name": "Club",
+    "description": "A simple bludgeoning weapon fashioned from a sturdy piece of wood.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d4",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "Light",
+      "cost": "1"
+    }
+  },
+  {
+    "name": "Dagger",
+    "description": "A small, easily concealed blade useful for close combat or throwing.",
+    "weight": 1.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d4",
+      "damageType": "Piercing",
+      "weaponProperties": "Finesse, Light, Thrown",
+      "range": "20/60",
+      "cost": "2"
+    }
+  },
+  {
+    "name": "Greatclub",
+    "description": "A massive two-handed club that delivers devastating blows.",
+    "weight": 10.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d8",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "Two-Handed",
+      "cost": "2"
+    }
+  },
+  {
+    "name": "Handaxe",
+    "description": "A light axe balanced for both melee and throwing.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d6",
+      "damageType": "Slashing",
+      "weaponProperties": "Light, Thrown",
+      "range": "20/60",
+      "cost": "5"
+    }
+  },
+  {
+    "name": "Javelin",
+    "description": "A light spear designed primarily for throwing.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "weaponProperties": "Thrown",
+      "range": "30/120",
+      "cost": "5"
+    }
+  },
+  {
+    "name": "Light Hammer",
+    "description": "A small hammer that can be thrown or used in melee.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d4",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "Light, Thrown",
+      "range": "20/60",
+      "cost": "2"
+    }
+  },
+  {
+    "name": "Mace",
+    "description": "A heavy-headed weapon on a short haft, favored by clerics.",
+    "weight": 4.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d6",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "",
+      "cost": "5"
+    }
+  },
+  {
+    "name": "Quarterstaff",
+    "description": "A sturdy wooden staff, versatile in skilled hands.",
+    "weight": 4.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d6",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "Versatile",
+      "versatileDamage": "1d8",
+      "cost": "2"
+    }
+  },
+  {
+    "name": "Sickle",
+    "description": "A curved blade on a short handle, originally a farming tool.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d4",
+      "damageType": "Slashing",
+      "weaponProperties": "Light",
+      "cost": "1"
+    }
+  },
+  {
+    "name": "Spear",
+    "description": "A versatile polearm effective in melee or at range.",
+    "weight": 3.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "weaponProperties": "Thrown, Versatile",
+      "versatileDamage": "1d8",
+      "range": "20/60",
+      "cost": "1"
+    }
+  },
+  {
+    "name": "Battleaxe",
+    "description": "A broad-bladed axe built for war, versatile in grip.",
+    "weight": 4.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Slashing",
+      "weaponProperties": "Versatile",
+      "versatileDamage": "1d10",
+      "cost": "10"
+    }
+  },
+  {
+    "name": "Flail",
+    "description": "A spiked ball on a chain, difficult to block.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "",
+      "cost": "10"
+    }
+  },
+  {
+    "name": "Glaive",
+    "description": "A single-edged blade on a long pole, providing superior reach.",
+    "weight": 6.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d10",
+      "damageType": "Slashing",
+      "weaponProperties": "Heavy, Reach, Two-Handed",
+      "cost": "20"
+    }
+  },
+  {
+    "name": "Greataxe",
+    "description": "A massive axe requiring two hands, capable of devastating strikes.",
+    "weight": 7.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d12",
+      "damageType": "Slashing",
+      "weaponProperties": "Heavy, Two-Handed",
+      "cost": "30"
+    }
+  },
+  {
+    "name": "Greatsword",
+    "description": "A large two-handed sword with a long, double-edged blade.",
+    "weight": 6.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "2d6",
+      "damageType": "Slashing",
+      "weaponProperties": "Heavy, Two-Handed",
+      "cost": "50"
+    }
+  },
+  {
+    "name": "Halberd",
+    "description": "An axe blade topped with a spike, mounted on a long shaft.",
+    "weight": 6.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d10",
+      "damageType": "Slashing",
+      "weaponProperties": "Heavy, Reach, Two-Handed",
+      "cost": "20"
+    }
+  },
+  {
+    "name": "Lance",
+    "description": "A long weapon designed for mounted combat, disadvantage within 5 feet.",
+    "weight": 6.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d12",
+      "damageType": "Piercing",
+      "weaponProperties": "Reach, Special",
+      "cost": "10"
+    }
+  },
+  {
+    "name": "Longsword",
+    "description": "The quintessential knight's weapon, effective one- or two-handed.",
+    "weight": 3.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Slashing",
+      "weaponProperties": "Versatile",
+      "versatileDamage": "1d10",
+      "cost": "15"
+    }
+  },
+  {
+    "name": "Maul",
+    "description": "A massive two-handed hammer that crushes armor and bone alike.",
+    "weight": 10.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "2d6",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "Heavy, Two-Handed",
+      "cost": "10"
+    }
+  },
+  {
+    "name": "Morningstar",
+    "description": "A spiked mace that combines bludgeoning force with piercing points.",
+    "weight": 4.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "weaponProperties": "",
+      "cost": "15"
+    }
+  },
+  {
+    "name": "Pike",
+    "description": "An extremely long thrusting spear used to keep enemies at bay.",
+    "weight": 18.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d10",
+      "damageType": "Piercing",
+      "weaponProperties": "Heavy, Reach, Two-Handed",
+      "cost": "5"
+    }
+  },
+  {
+    "name": "Rapier",
+    "description": "A slender, sharply pointed sword optimized for thrusting attacks.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "weaponProperties": "Finesse",
+      "cost": "25"
+    }
+  },
+  {
+    "name": "Scimitar",
+    "description": "A curved, single-edged blade designed for slashing attacks.",
+    "weight": 3.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d6",
+      "damageType": "Slashing",
+      "weaponProperties": "Finesse, Light",
+      "cost": "25"
+    }
+  },
+  {
+    "name": "Shortsword",
+    "description": "A light, short blade ideal for quick strikes and dual wielding.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "weaponProperties": "Finesse, Light",
+      "cost": "10"
+    }
+  },
+  {
+    "name": "Trident",
+    "description": "A three-pronged spear that can be thrown or used in melee.",
+    "weight": 4.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "weaponProperties": "Thrown, Versatile",
+      "versatileDamage": "1d8",
+      "range": "20/60",
+      "cost": "5"
+    }
+  },
+  {
+    "name": "War Pick",
+    "description": "A military pick designed to punch through heavy armor.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "weaponProperties": "",
+      "cost": "5"
+    }
+  },
+  {
+    "name": "Warhammer",
+    "description": "A sturdy hammer built for battle, versatile in grip.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Bludgeoning",
+      "weaponProperties": "Versatile",
+      "versatileDamage": "1d10",
+      "cost": "15"
+    }
+  },
+  {
+    "name": "Whip",
+    "description": "A braided leather weapon with exceptional reach.",
+    "weight": 3.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d4",
+      "damageType": "Slashing",
+      "weaponProperties": "Finesse, Reach",
+      "cost": "2"
+    }
+  },
+  {
+    "name": "Light Crossbow",
+    "description": "A simple mechanical ranged weapon, easy to use with minimal training.",
+    "weight": 5.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "weaponProperties": "Ammunition, Loading, Two-Handed",
+      "range": "80/320",
+      "cost": "25"
+    }
+  },
+  {
+    "name": "Shortbow",
+    "description": "A compact bow suited for skirmishing and mounted use.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Simple",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "weaponProperties": "Ammunition, Two-Handed",
+      "range": "80/320",
+      "cost": "25"
+    }
+  },
+  {
+    "name": "Longbow",
+    "description": "A tall bow with impressive range and power, requiring strength to draw.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "weaponProperties": "Ammunition, Heavy, Two-Handed",
+      "range": "150/600",
+      "cost": "50"
+    }
+  },
+  {
+    "name": "Heavy Crossbow",
+    "description": "A powerful mechanical ranged weapon with superior penetration.",
+    "weight": 18.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d10",
+      "damageType": "Piercing",
+      "weaponProperties": "Ammunition, Heavy, Loading, Two-Handed",
+      "range": "100/400",
+      "cost": "50"
+    }
+  },
+  {
+    "name": "Hand Crossbow",
+    "description": "A small, one-handed crossbow easily concealed or paired with a shield.",
+    "weight": 3.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Weapon",
+      "category": "Martial",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "weaponProperties": "Ammunition, Light, Loading",
+      "range": "30/120",
+      "cost": "75"
+    }
+  },
+  {
+    "name": "Padded Armor",
+    "description": "Quilted layers of cloth and batting, offering minimal protection.",
+    "weight": 8.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Light",
+      "armorClass": "11",
+      "addDex": "true",
+      "maxDexBonus": "",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "",
+      "cost": "5"
+    }
+  },
+  {
+    "name": "Leather Armor",
+    "description": "A breastpiece and shoulder protectors made of stiffened leather.",
+    "weight": 10.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Light",
+      "armorClass": "11",
+      "addDex": "true",
+      "maxDexBonus": "",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "10"
+    }
+  },
+  {
+    "name": "Studded Leather Armor",
+    "description": "Tough leather reinforced with close-set rivets or spikes.",
+    "weight": 13.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Light",
+      "armorClass": "12",
+      "addDex": "true",
+      "maxDexBonus": "",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "45"
+    }
+  },
+  {
+    "name": "Hide Armor",
+    "description": "Crude armor made from thick animal hides and pelts.",
+    "weight": 12.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Medium",
+      "armorClass": "12",
+      "addDex": "true",
+      "maxDexBonus": "2",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "10"
+    }
+  },
+  {
+    "name": "Chain Shirt",
+    "description": "Interlocking metal rings worn between layers of clothing.",
+    "weight": 20.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Medium",
+      "armorClass": "13",
+      "addDex": "true",
+      "maxDexBonus": "2",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "50"
+    }
+  },
+  {
+    "name": "Scale Mail",
+    "description": "A coat and leggings covered with overlapping metal scales.",
+    "weight": 45.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Medium",
+      "armorClass": "14",
+      "addDex": "true",
+      "maxDexBonus": "2",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "",
+      "cost": "50"
+    }
+  },
+  {
+    "name": "Breastplate",
+    "description": "A fitted metal chest piece that leaves the limbs free for movement.",
+    "weight": 20.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Medium",
+      "armorClass": "14",
+      "addDex": "true",
+      "maxDexBonus": "2",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "400"
+    }
+  },
+  {
+    "name": "Half Plate",
+    "description": "Shaped metal plates covering most of the body, with chain and leather beneath.",
+    "weight": 40.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Medium",
+      "armorClass": "15",
+      "addDex": "true",
+      "maxDexBonus": "2",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "",
+      "cost": "750"
+    }
+  },
+  {
+    "name": "Ring Mail",
+    "description": "Leather armor with heavy rings sewn into it for reinforcement.",
+    "weight": 40.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "14",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "",
+      "cost": "30"
+    }
+  },
+  {
+    "name": "Chain Mail",
+    "description": "Interlocking metal rings forming a full-body mesh of armor.",
+    "weight": 55.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "16",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "13",
+      "cost": "75"
+    }
+  },
+  {
+    "name": "Splint Armor",
+    "description": "Narrow vertical metal strips riveted to a backing of leather and chain.",
+    "weight": 60.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "17",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "15",
+      "cost": "200"
+    }
+  },
+  {
+    "name": "Plate Armor",
+    "description": "Full suit of interlocking metal plates covering the entire body.",
+    "weight": 65.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Heavy",
+      "armorClass": "18",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "true",
+      "strengthRequirement": "15",
+      "cost": "1500"
+    }
+  },
+  {
+    "name": "Shield",
+    "description": "A wooden or metal shield strapped to the arm, providing +2 AC.",
+    "weight": 6.0,
+    "rarity": "Common",
+    "isEquippable": true,
+    "isConsumable": false,
+    "properties": {
+      "type": "Armor",
+      "category": "Shield",
+      "armorClass": "2",
+      "addDex": "false",
+      "maxDexBonus": "0",
+      "stealthDisadvantage": "false",
+      "strengthRequirement": "",
+      "cost": "10"
+    }
+  },
+  {
+    "name": "Backpack",
+    "description": "A sturdy leather pack that can hold up to 30 pounds of gear.",
+    "weight": 5.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": false,
+    "properties": {
+      "type": "Gear",
+      "cost": "2"
+    }
+  },
+  {
+    "name": "Bedroll",
+    "description": "A simple sleeping roll for camping in the wilderness.",
+    "weight": 7.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": false,
+    "properties": {
+      "type": "Gear",
+      "cost": "1"
+    }
+  },
+  {
+    "name": "Torch",
+    "description": "A wooden rod wrapped in oil-soaked cloth. Burns for 1 hour, providing bright light in a 20-foot radius.",
+    "weight": 1.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Gear",
+      "cost": "1",
+      "effect": "Bright light 20 ft, dim light additional 20 ft for 1 hour"
+    }
+  },
+  {
+    "name": "Rope (50 feet)",
+    "description": "Fifty feet of hempen rope. Can hold up to 600 pounds.",
+    "weight": 10.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": false,
+    "properties": {
+      "type": "Gear",
+      "cost": "1"
+    }
+  },
+  {
+    "name": "Rations (1 day)",
+    "description": "Dry food suitable for extended travel, including jerky, dried fruit, and hardtack.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "1",
+      "effect": "Sustains one creature for one day"
+    }
+  },
+  {
+    "name": "Waterskin",
+    "description": "A leather pouch that holds up to 4 pints of liquid.",
+    "weight": 5.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": false,
+    "properties": {
+      "type": "Gear",
+      "cost": "1"
+    }
+  },
+  {
+    "name": "Tinderbox",
+    "description": "A flint, fire steel, and tinder used to start fires.",
+    "weight": 1.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": false,
+    "properties": {
+      "type": "Gear",
+      "cost": "1"
+    }
+  },
+  {
+    "name": "Healing Potion",
+    "description": "A magical red liquid that restores vitality when consumed. Heals 2d4+2 hit points.",
+    "weight": 0.5,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "50",
+      "effect": "Heal 2d4+2 HP",
+      "healAmount": "2d4+2"
+    }
+  },
+  {
+    "name": "Antitoxin",
+    "description": "A vial of liquid that grants advantage on saving throws against poison for 1 hour.",
+    "weight": 0.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "50",
+      "effect": "Advantage on saves vs poison for 1 hour"
+    }
+  },
+  {
+    "name": "Holy Water",
+    "description": "Blessed water in a flask. Can be thrown as an improvised weapon, dealing 2d6 radiant damage to fiends and undead.",
+    "weight": 1.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "25",
+      "effect": "2d6 radiant damage to fiends and undead (thrown, 20 ft range)"
+    }
+  },
+  {
+    "name": "Oil (flask)",
+    "description": "A flask of oil that can fuel a lamp or be used as a thrown weapon (fire damage).",
+    "weight": 1.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Consumable",
+      "cost": "1",
+      "effect": "5 fire damage on hit, burns for 2 rounds dealing 5 fire damage per round"
+    }
+  },
+  {
+    "name": "Caltrops (bag of 20)",
+    "description": "Tiny metal spikes scattered to slow pursuers. Covers a 5-foot square area.",
+    "weight": 2.0,
+    "rarity": "Common",
+    "isEquippable": false,
+    "isConsumable": true,
+    "properties": {
+      "type": "Gear",
+      "cost": "1",
+      "effect": "Covers 5 ft square. DC 15 Dex save or stop moving, take 1 piercing damage, speed reduced by 10 ft until healed"
+    }
+  }
+]

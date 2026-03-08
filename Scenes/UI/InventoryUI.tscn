@@ -1,0 +1,270 @@
+; InventoryUI.tscn
+; Inventory and equipment management overlay for Chronicles Unbound.
+; Full-viewport semi-transparent overlay with centered 3-column layout.
+; Builds equipment slots and item list dynamically via GDScript.
+
+[gd_scene format=3 uid="uid://inventory_ui"]
+
+; ── External script reference ─────────────────────────────────────────────────
+[ext_resource type="Script" path="res://Scripts/UI/InventoryUI.gd" id="1_inventory"]
+
+; ── StyleBoxFlat resources ────────────────────────────────────────────────────
+
+; Semi-transparent background overlay
+[sub_resource type="StyleBoxFlat" id="StyleBox_overlay_bg"]
+bg_color = Color(0.05, 0.05, 0.1, 0.85)
+
+; Main panel background — dark navy
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel_bg"]
+bg_color = Color(0.063, 0.063, 0.157, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 0.5)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
+; Column background panels
+[sub_resource type="StyleBoxFlat" id="StyleBox_column_bg"]
+bg_color = Color(0.08, 0.08, 0.18, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.4)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+; ── Scene tree ────────────────────────────────────────────────────────────────
+
+; Root — full-viewport overlay Control
+[node name="InventoryUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_inventory")
+
+; Semi-transparent background overlay
+[node name="OverlayBackground" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_overlay_bg")
+
+; ══════════════════════════════════════════════════════════════════════════════
+; CENTERED PANEL CONTAINER
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+; Main inventory panel
+[node name="MainPanel" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(1400, 800)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_panel_bg")
+
+; Outer margin
+[node name="OuterMargin" type="MarginContainer" parent="CenterContainer/MainPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+; Main VBox layout
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+; ── Header row ────────────────────────────────────────────────────────────────
+
+[node name="HeaderRow" type="HBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+; Party member tabs container
+[node name="PartyTabsContainer" type="HBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/HeaderRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+; Attunement slot counter
+[node name="AttunementLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/HeaderRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Attunement: 0/3"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 14
+
+; Title label (centered)
+[node name="TitleLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "INVENTORY"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_colors/font_shadow_color = Color(0.0, 0.0, 0.0, 0.6)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 28
+
+; Close button
+[node name="CloseButton" type="Button" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/HeaderRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+text = "✕"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 24
+
+; ── Content row (3 columns) ────────────────────────────────────────────────────
+
+[node name="ContentRow" type="HBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+; ══════════════════════════════════════════════════════════════════════════════
+; LEFT COLUMN — Equipment Slots
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="EquipmentColumn" type="PanelContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_column_bg")
+
+[node name="EquipmentMargin" type="MarginContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EquipmentColumn"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="EquipmentVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EquipmentColumn/EquipmentMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EquipmentHeaderLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EquipmentColumn/EquipmentMargin/EquipmentVBox"]
+layout_mode = 2
+text = "EQUIPPED ITEMS"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="SlotsScroll" type="ScrollContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EquipmentColumn/EquipmentMargin/EquipmentVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SlotsVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/EquipmentColumn/EquipmentMargin/EquipmentVBox/SlotsScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+; ══════════════════════════════════════════════════════════════════════════════
+; CENTER COLUMN — Inventory List
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="InventoryColumn" type="PanelContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_column_bg")
+
+[node name="InventoryMargin" type="MarginContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/InventoryColumn"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="InventoryVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/InventoryColumn/InventoryMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="InventoryHeaderLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/InventoryColumn/InventoryMargin/InventoryVBox"]
+layout_mode = 2
+text = "CARRIED ITEMS"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="ItemsScroll" type="ScrollContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/InventoryColumn/InventoryMargin/InventoryVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemsVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/InventoryColumn/InventoryMargin/InventoryVBox/ItemsScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+; Weight and gold display at bottom of inventory column
+[node name="StatsRow" type="HBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/InventoryColumn/InventoryMargin/InventoryVBox"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="WeightLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/InventoryColumn/InventoryMargin/InventoryVBox/StatsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Weight: 0 / 0 lb"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_font_sizes/font_size = 13
+
+[node name="GoldLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/InventoryColumn/InventoryMargin/InventoryVBox/StatsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Gold: 0 gp"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 2
+
+; ══════════════════════════════════════════════════════════════════════════════
+; RIGHT COLUMN — Item Details
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="DetailsColumn" type="PanelContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_column_bg")
+
+[node name="DetailsMargin" type="MarginContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/DetailsColumn"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="DetailsVBox" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/DetailsColumn/DetailsMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PlaceholderLabel" type="Label" parent="CenterContainer/MainPanel/OuterMargin/MainVBox/ContentRow/DetailsColumn/DetailsMargin/DetailsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Select an item to view details."
+theme_override_colors/font_color = Color(0.533, 0.533, 0.533, 1.0)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

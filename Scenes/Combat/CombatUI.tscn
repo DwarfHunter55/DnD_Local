@@ -1,0 +1,929 @@
+; CombatUI.tscn
+; Tactical combat overlay for Chronicles Unbound.
+; Viewport: 1280x720 (stretch mode: canvas_items, aspect: expand)
+; Layout summary:
+;   VBoxContainer (root, full viewport)
+;     PanelContainer (top bar — initiative order + round counter, ~50px)
+;     HBoxContainer (main body — expands to fill remaining height)
+;       Control (centre — transparent, lets combat grid show through)
+;       PanelContainer (right panel — character info + actions, ~250px)
+;     PanelContainer (bottom panel — combat log, ~120px)
+;
+; All interactive nodes use scene-unique names (%) for @onready resolution.
+
+[gd_scene format=3 uid="uid://combat_ui"]
+
+; ── External script reference ─────────────────────────────────────────────────
+[ext_resource type="Script" path="res://Scripts/UI/CombatUI.gd" id="1_combatui"]
+[ext_resource type="PackedScene" path="res://Scenes/Combat/CompanionActionPanel.tscn" id="2_companion_panel"]
+
+; ── StyleBoxFlat resources ────────────────────────────────────────────────────
+; Match NarrativeUI palette exactly — no new design tokens introduced.
+
+; Shared dark background — top bar, right panel, bottom panel
+[sub_resource type="StyleBoxFlat" id="StyleBox_bg_dark"]
+bg_color = Color(0.086, 0.086, 0.157, 1.0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Top bar — lighter charcoal with gold bottom border (matches NarrativeUI TopBar)
+[sub_resource type="StyleBoxFlat" id="StyleBox_topbar"]
+bg_color = Color(0.102, 0.102, 0.18, 1.0)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 2
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Right panel — same as NarrativeUI party panel
+[sub_resource type="StyleBoxFlat" id="StyleBox_right_panel"]
+bg_color = Color(0.086, 0.086, 0.157, 0.96)
+border_width_left = 1
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color(0.35, 0.30, 0.18, 0.6)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+; Bottom panel — darkest background with gold top border (matches NarrativeUI StatusBar style
+; but taller — this holds the combat log)
+[sub_resource type="StyleBoxFlat" id="StyleBox_bottom_panel"]
+bg_color = Color(0.063, 0.063, 0.118, 0.97)
+border_width_left = 0
+border_width_top = 2
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_left = 0
+corner_radius_bottom_right = 0
+
+; Character info sub-panel — darkest inset card (same as NarrativeUI narrative_panel)
+[sub_resource type="StyleBoxFlat" id="StyleBox_info_card"]
+bg_color = Color(0.063, 0.063, 0.118, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+; Action / bonus-action buttons — normal state (matches NarrativeUI btn_normal)
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_normal"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 5.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+
+; Action buttons — hover state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_hover"]
+bg_color = Color(0.18, 0.16, 0.10, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 5.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+
+; Action buttons — pressed state
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_pressed"]
+bg_color = Color(0.25, 0.20, 0.06, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 5.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+
+; Action buttons — disabled (grayed out / used)
+[sub_resource type="StyleBoxFlat" id="StyleBox_btn_disabled"]
+bg_color = Color(0.08, 0.08, 0.12, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.23, 0.18, 0.5)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 5.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+
+; End Turn button — normal (prominent gold fill)
+[sub_resource type="StyleBoxFlat" id="StyleBox_endturn_normal"]
+bg_color = Color(0.18, 0.14, 0.04, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.788, 0.635, 0.153, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+; End Turn button — hover (brighter gold)
+[sub_resource type="StyleBoxFlat" id="StyleBox_endturn_hover"]
+bg_color = Color(0.28, 0.22, 0.06, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+; End Turn button — highlighted (all actions spent — full bright gold bg)
+[sub_resource type="StyleBoxFlat" id="StyleBox_endturn_highlight"]
+bg_color = Color(0.40, 0.30, 0.05, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+; Undo Move button — subtle secondary style
+[sub_resource type="StyleBoxFlat" id="StyleBox_undo_normal"]
+bg_color = Color(0.09, 0.09, 0.16, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 5.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+
+; Undo Move button — hover
+[sub_resource type="StyleBoxFlat" id="StyleBox_undo_hover"]
+bg_color = Color(0.13, 0.12, 0.22, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.60, 0.55, 0.35, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8.0
+content_margin_top = 5.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+
+; Initiative chip — default (no-highlight) background
+[sub_resource type="StyleBoxFlat" id="StyleBox_init_chip"]
+bg_color = Color(0.11, 0.11, 0.20, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.30, 0.18, 0.7)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+content_margin_left = 6.0
+content_margin_top = 3.0
+content_margin_right = 6.0
+content_margin_bottom = 3.0
+
+; Initiative chip — active combatant highlight (bright gold border, lighter bg)
+[sub_resource type="StyleBoxFlat" id="StyleBox_init_chip_active"]
+bg_color = Color(0.22, 0.17, 0.04, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.82, 0.35, 1.0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+content_margin_left = 6.0
+content_margin_top = 3.0
+content_margin_right = 6.0
+content_margin_bottom = 3.0
+
+; HP bar background track
+[sub_resource type="StyleBoxFlat" id="StyleBox_hpbar_bg"]
+bg_color = Color(0.08, 0.08, 0.08, 1.0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+; HP bar fill — green default; overridden at runtime by script based on ratio
+[sub_resource type="StyleBoxFlat" id="StyleBox_hpbar_fill"]
+bg_color = Color(0.18, 0.80, 0.44, 1.0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+; Combat log panel — same as NarrativeUI narrative panel
+[sub_resource type="StyleBoxFlat" id="StyleBox_log_panel"]
+bg_color = Color(0.063, 0.063, 0.118, 1.0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.30, 0.18, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+; ── Scene tree ────────────────────────────────────────────────────────────────
+
+; Root — full-viewport Control with the GDScript controller attached.
+; mouse_filter = IGNORE so the transparent centre area passes clicks to the grid.
+[node name="CombatUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_combatui")
+
+; ══════════════════════════════════════════════════════════════════════════════
+; OUTER VERTICAL LAYOUT
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="RootVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+mouse_filter = 2
+
+; ══════════════════════════════════════════════════════════════════════════════
+; TOP BAR — initiative order chips + round counter
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="TopBar" type="PanelContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 50)
+theme_override_styles/panel = SubResource("StyleBox_topbar")
+
+[node name="TopBarMargin" type="MarginContainer" parent="RootVBox/TopBar"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="TopBarHBox" type="HBoxContainer" parent="RootVBox/TopBar/TopBarMargin"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+
+; "INITIATIVE" label — left-anchored, aligns the bar with a section header
+[node name="InitiativeHeaderLabel" type="Label" parent="RootVBox/TopBar/TopBarMargin/TopBarHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+text = "INITIATIVE"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 10
+
+; Scrollable row of initiative chips — grows to fill available width.
+; Chips are created at runtime by CombatUI.gd via update_initiative_bar().
+[node name="InitiativeScroll" type="ScrollContainer" parent="RootVBox/TopBar/TopBarMargin/TopBarHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 1
+vertical_scroll_mode = 0
+
+[node name="InitiativeBar" type="HBoxContainer" parent="RootVBox/TopBar/TopBarMargin/TopBarHBox/InitiativeScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_constants/separation = 6
+
+; Spacer between chip row and round counter
+[node name="TopBarSpacer" type="Control" parent="RootVBox/TopBar/TopBarMargin/TopBarHBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(12, 0)
+size_flags_horizontal = 0
+
+; Round counter — "Round: 1"
+[node name="RoundLabel" type="Label" parent="RootVBox/TopBar/TopBarMargin/TopBarHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+text = "Round: 1"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_font_sizes/font_size = 13
+
+; ══════════════════════════════════════════════════════════════════════════════
+; MAIN BODY — transparent centre + right panel
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="MainHBox" type="HBoxContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+mouse_filter = 2
+
+; Transparent pass-through — grid renders beneath this area
+[node name="GridPassthrough" type="Control" parent="RootVBox/MainHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+; ══════════════════════════════════════════════════════════════════════════════
+; RIGHT PANEL — active character info + action buttons
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="RightPanel" type="PanelContainer" parent="RootVBox/MainHBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 0)
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBox_right_panel")
+
+[node name="RightVBox" type="VBoxContainer" parent="RootVBox/MainHBox/RightPanel"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 6
+
+; ── Active character info card ─────────────────────────────────────────────────
+
+[node name="CharInfoCard" type="PanelContainer" parent="RootVBox/MainHBox/RightPanel/RightVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_info_card")
+
+[node name="CharInfoVBox" type="VBoxContainer" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+
+; Name row — name left, level right
+[node name="CharNameRow" type="HBoxContainer" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CharNameLabel" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox/CharNameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "—"
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_font_sizes/font_size = 15
+
+[node name="CharLevelLabel" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox/CharNameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Lv1"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 12
+
+; Class label
+[node name="CharClassLabel" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fighter"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 12
+
+; HP bar
+[node name="CharHPBar" type="ProgressBar" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+max_value = 10.0
+value = 10.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBox_hpbar_bg")
+theme_override_styles/fill = SubResource("StyleBox_hpbar_fill")
+
+; HP numbers label — "42 / 45"
+[node name="CharHPLabel" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / 0"
+theme_override_colors/font_color = Color(0.55, 0.52, 0.47, 1.0)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 2
+
+; AC / Speed stat row
+[node name="CharStatsRow" type="HBoxContainer" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CharACLabel" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox/CharStatsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "AC: —"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 12
+
+[node name="CharSpeedLabel" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox/CharStatsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Spd: —"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 2
+
+; Conditions list — hidden when empty, shown as a single wrapped label
+[node name="CharConditionsLabel" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/CharInfoCard/CharInfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+theme_override_colors/font_color = Color(0.86, 0.44, 0.44, 1.0)
+theme_override_font_sizes/font_size = 11
+visible = false
+
+; ── Separator between info and actions ────────────────────────────────────────
+
+[node name="InfoActionSeparator" type="HSeparator" parent="RootVBox/MainHBox/RightPanel/RightVBox"]
+layout_mode = 2
+
+; ── Actions panel — scrollable in case of many bonus actions ──────────────────
+
+[node name="ActionsScroll" type="ScrollContainer" parent="RootVBox/MainHBox/RightPanel/RightVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="ActionsVBox" type="VBoxContainer" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+; ── Movement row ──────────────────────────────────────────────────────────────
+
+[node name="MoveButton" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Move (30 ft remaining)"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+
+; ── Standard Actions header ───────────────────────────────────────────────────
+
+[node name="ActionHeader" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+layout_mode = 2
+text = "ACTION"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 10
+
+; ── Standard action buttons ───────────────────────────────────────────────────
+; All hidden by default; shown selectively via update_available_actions().
+
+[node name="BtnAttack" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Attack"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnCastSpell" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cast Spell"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnDash" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dash"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnDodge" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dodge"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnDisengage" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Disengage"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnHelp" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Help"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnHide" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Hide"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnReady" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ready"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnUseObject" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Use Object"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+; ── Bonus Actions header ──────────────────────────────────────────────────────
+
+[node name="BonusActionHeader" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+layout_mode = 2
+text = "BONUS ACTION"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 10
+
+; ── Bonus action buttons ──────────────────────────────────────────────────────
+
+[node name="BtnOffhandAttack" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Offhand Attack"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnBonusSpell" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Bonus Spell"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnSecondWind" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Second Wind"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+[node name="BtnActionSurge" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Action Surge"
+theme_override_colors/font_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_hover_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_colors/font_disabled_color = Color(0.40, 0.38, 0.33, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_btn_normal")
+theme_override_styles/hover = SubResource("StyleBox_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_btn_pressed")
+theme_override_styles/disabled = SubResource("StyleBox_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBox_btn_hover")
+theme_override_font_sizes/font_size = 12
+visible = false
+
+; ── Reaction header + status label ────────────────────────────────────────────
+
+[node name="ReactionHeader" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+layout_mode = 2
+text = "REACTION"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 10
+
+[node name="ReactionStatusLabel" type="Label" parent="RootVBox/MainHBox/RightPanel/RightVBox/ActionsScroll/ActionsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Available"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_font_sizes/font_size = 12
+
+; ── End Turn / Undo Move buttons ──────────────────────────────────────────────
+
+[node name="EndTurnButton" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "End Turn"
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1.0)
+theme_override_colors/font_hover_color = Color(1.0, 0.95, 0.55, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 1.0, 0.75, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_endturn_normal")
+theme_override_styles/hover = SubResource("StyleBox_endturn_hover")
+theme_override_styles/pressed = SubResource("StyleBox_endturn_normal")
+theme_override_styles/focus = SubResource("StyleBox_endturn_hover")
+theme_override_font_sizes/font_size = 14
+
+[node name="UndoMoveButton" type="Button" parent="RootVBox/MainHBox/RightPanel/RightVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Undo Move"
+theme_override_colors/font_color = Color(0.702, 0.675, 0.627, 1.0)
+theme_override_colors/font_hover_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_pressed_color = Color(1.0, 0.95, 0.6, 1.0)
+theme_override_styles/normal = SubResource("StyleBox_undo_normal")
+theme_override_styles/hover = SubResource("StyleBox_undo_hover")
+theme_override_styles/pressed = SubResource("StyleBox_undo_normal")
+theme_override_styles/focus = SubResource("StyleBox_undo_hover")
+theme_override_font_sizes/font_size = 12
+
+; ══════════════════════════════════════════════════════════════════════════════
+; BOTTOM PANEL — combat log
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="BottomPanel" type="PanelContainer" parent="RootVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 120)
+theme_override_styles/panel = SubResource("StyleBox_bottom_panel")
+
+[node name="BottomMargin" type="MarginContainer" parent="RootVBox/BottomPanel"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="BottomHBox" type="HBoxContainer" parent="RootVBox/BottomPanel/BottomMargin"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 8
+
+; "COMBAT LOG" vertical header label — narrow, rotated via code is not reliable in Godot,
+; so we use a compact upright label instead.
+[node name="LogHeaderLabel" type="Label" parent="RootVBox/BottomPanel/BottomMargin/BottomHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+text = "LOG"
+theme_override_colors/font_color = Color(0.788, 0.635, 0.153, 1.0)
+theme_override_font_sizes/font_size = 10
+
+; Combat log display — BBCode-enabled, scroll-following, matches NarrativeLabel style
+[node name="CombatLogPanel" type="PanelContainer" parent="RootVBox/BottomPanel/BottomMargin/BottomHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_log_panel")
+
+[node name="CombatLog" type="RichTextLabel" parent="RootVBox/BottomPanel/BottomMargin/BottomHBox/CombatLogPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+scroll_following = true
+selection_enabled = true
+bbcode_enabled = true
+text = ""
+theme_override_colors/default_color = Color(0.933, 0.910, 0.835, 1.0)
+theme_override_colors/font_shadow_color = Color(0.0, 0.0, 0.0, 0.5)
+theme_override_font_sizes/normal_font_size = 13
+theme_override_font_sizes/bold_font_size = 13
+theme_override_font_sizes/italics_font_size = 13
+
+; ══════════════════════════════════════════════════════════════════════════════
+; COMPANION ACTION REVIEW PANEL — instanced from CompanionActionPanel.tscn.
+; Floats over the grid area. Hidden by default; shown by CombatBridge when an
+; AI companion's turn begins in Suggest autonomy mode.
+; ══════════════════════════════════════════════════════════════════════════════
+
+[node name="CompanionActionPanel" parent="." instance=ExtResource("2_companion_panel")]
+unique_name_in_owner = true
